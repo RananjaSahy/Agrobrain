@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import image from "../assets/logo.png";
 
 const Navbar = () => {
-  const [menuOpen, setMenuOpen] = useState(false); 
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -29,7 +29,7 @@ const Navbar = () => {
             </a>
             <a
               href="#about"
-             className="text-black hover:text-white transition duration-150"
+              className="text-black hover:text-white transition duration-150"
             >
               About
             </a>
@@ -44,6 +44,12 @@ const Navbar = () => {
               className="text-black hover:text-white transition duration-150"
             >
               Contact
+            </a>
+            <a
+              href="#news"
+              className="text-black hover:text-white transition duration-150"
+            >
+              News
             </a>
           </div>
 
@@ -73,7 +79,7 @@ const Navbar = () => {
 
         {/* Mobile Menu */}
         {menuOpen && (
-          <div className="md:hidden">
+          <div className="md:hidden bg-white p-4 shadow-lg rounded-lg">
             <div className="space-y-4 mt-4">
               <a
                 href="/"
@@ -89,7 +95,7 @@ const Navbar = () => {
               </a>
               <a
                 href="#services"
-               className="block text-black hover:text-white transition duration-150"
+                className="block text-black hover:text-white transition duration-150"
               >
                 Services
               </a>
@@ -98,6 +104,12 @@ const Navbar = () => {
                 className="block text-black hover:text-white transition duration-150"
               >
                 Contact
+              </a>
+              <a
+                href="#news"
+                className="block text-black hover:text-white transition duration-150"
+              >
+                News
               </a>
             </div>
           </div>

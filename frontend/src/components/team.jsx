@@ -36,9 +36,9 @@ const Team = () => {
   const [hoveredMember, setHoveredMember] = useState(null);
 
   return (
-    <div className="flex flex-col lg:flex-row items-center justify-center min-h-screen bg-gray-100 relative px-10">
-      {/* Robot Illustration */}
-      <div className="lg:mr-12 mb-6 lg:mb-0 relative flex flex-col items-center lg:mt-0 mt-6">
+    <div className="flex flex-col lg:flex-row items-center justify-center min-h-screen bg-gray-100 relative px-10" id="contact">
+      {/* Hide the Robot and Dashboard Image on Phone */}
+      <div className="lg:mr-12 mb-6 lg:mb-0 relative flex flex-col items-center lg:mt-0 mt-6 hidden lg:block">
         <img
           src="/screen.png"
           alt="Screen Illustration"
@@ -63,16 +63,16 @@ const Team = () => {
           className="absolute inset-0 rounded-full blur-xl bg-gradient-to-r from-[#5DB996] to-[#a3e1c4] opacity-50"
           style={{ filter: "blur(20px)" }}
         ></div>
-        <div className="text-center relative z-10">
+        
+        {/* Make "Meet Our Team" Invisible when Hovering */}
+        <div className={`text-center relative z-10 transition-all duration-300 ${hoveredMember !== null ? "opacity-0" : "opacity-100"}`}>
           <h1 className="text-4xl font-bold text-black sm:text-2xl">Meet Our</h1>
-          <h1 className="text-4xl font-bold text-[#5DB996] sm:text-2xl">
-            Team
-          </h1>
+          <h1 className="text-4xl font-bold text-[#5DB996] sm:text-2xl">Team</h1>
         </div>
 
         {teamMembers.map((member, index) => {
           const angle = (360 / teamMembers.length) * index;
-          const radius = 200; // Distance from center
+          const radius = 150; // Reduced radius to make circles closer
           const x = Math.cos((angle * Math.PI) / 180) * radius;
           const y = Math.sin((angle * Math.PI) / 180) * radius;
 

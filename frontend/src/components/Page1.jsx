@@ -4,6 +4,9 @@ import Hero from './Hero'
 import Capabilities from './Cardpart'
 import Services from './Services'
 import Team from './team'
+import News from './News'
+import FeedbackForm from './Feedback'
+import Footer from './Footer'
 const Page1 = () => {
   return (
     <div>
@@ -12,6 +15,9 @@ const Page1 = () => {
       <Capabilities/>
       <Services/>
       <Team/>
+      <News/>
+      <FeedbackForm/>
+      <Footer/>
     </div>
   )
 }
