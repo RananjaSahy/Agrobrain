@@ -1,0 +1,73 @@
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { FaRobot, FaBookOpen, FaLeaf } from "react-icons/fa";
+
+const WhatAreWeCapableOf = () => {
+  const cards = [
+    {
+      title: "Revolutionize Farming with AI",
+      description:
+        "Empower farmers through cutting-edge ML models for soil, crop, and weather analysis. We aim to make precision farming accessible and efficient for everyone.",
+      icon: <FaRobot size={40} />,
+    },
+    {
+      title: "Educate and Inform Farmers",
+      description:
+        "Provide farmers with the knowledge and tools they need to optimize their practices and increase productivity.",
+      icon: <FaBookOpen size={40} />,
+    },
+    {
+      title: "Foster Sustainable Agriculture",
+      description:
+        "Encourage eco-friendly farming techniques that protect the environment and ensure long-term agricultural sustainability.",
+      icon: <FaLeaf size={40} />,
+    },
+  ];
+
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    // Change active card every 2 seconds
+    const interval = setInterval(() => {
+      setActiveIndex((prevIndex) => (prevIndex + 1) % cards.length);
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, [cards.length]);
+
+  return (
+    <div className="flex flex-col items-center justify-center bg-gray-100 p-8" id="about">
+
+      <h2 className="text-5xl font-bold text-teal-600 mb-12 p-4 rounded-md text-center text-shadow">
+  <span className="text-shadow-lg">
+    What are we capable of:
+  </span>
+</h2>
+
+      <div className="flex gap-8 justify-center">
+        {cards.map((card, index) => (
+          <motion.div
+            key={index}
+            className={`w-80 p-6 bg-white rounded-lg shadow-lg flex flex-col items-start transform transition-transform duration-500 ease-in-out`}
+            animate={{
+              scale: index === activeIndex ? 1 : 0.5, // Scale active card to 1 and others to 0.5
+            }}
+          >
+            {/* Icon */}
+            <div className="text-teal-600 mb-4">{card.icon}</div>
+
+            {/* Title */}
+            <h3 className="text-xl font-semibold mb-2 text-teal-700">
+              {card.title}
+            </h3>
+
+            {/* Description */}
+            <p className="text-gray-600">{card.description}</p>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default WhatAreWeCapableOf;
