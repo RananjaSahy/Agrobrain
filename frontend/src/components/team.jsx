@@ -4,17 +4,10 @@ import { FaLinkedin, FaGithub, FaEnvelope } from "react-icons/fa";
 const teamMembers = [
   {
     name: "Progya",
-    image: "/i4.jpg",
+    image: "/i1.jpg",
     linkedin: "https://www.linkedin.com/in/progya-bhattacharjee-427149298",
     github: "https://github.com/ProgyaBhattachrjee",
     email: "mailto:progya56@gmail.com",
-  },
-  {
-    name: "Debjoyti",
-    image: "/i1.jpg",
-    linkedin: "https://linkedin.com/in/janesmith",
-    github: "https://github.com/janesmith",
-    email: "mailto:janesmith@example.com",
   },
   {
     name: "Sujoy",
@@ -24,21 +17,29 @@ const teamMembers = [
     email: "mailto:duttasujoy1415@gmail.com",
   },
   {
+    name: "Debjoyti",
+    image: "/i4.png",
+    linkedin: "https://linkedin.com/in/janesmith",
+    github: "https://www.linkedin.com/in/debjyotishit/",
+    email: "mailto:debjyotishit27@gmail.com",
+  },
+  {
     name: "Sagnik",
     image: "/i3.jpg",
     linkedin: "https://linkedin.com/in/bobbrown",
     github: "https://www.linkedin.com/in/sagnik-mitra10",
     email: "mailto:sagnikmitra008@gmail.com",
   },
+  
 ];
 
 const Team = () => {
   const [hoveredMember, setHoveredMember] = useState(null);
 
   return (
-    <div className="flex flex-col lg:flex-row items-center justify-center min-h-screen bg-gray-100 relative px-10" id="contact">
+    <div className="relative flex flex-col items-center justify-center min-h-screen px-10 bg-gray-100 lg:flex-row" id="contact">
       {/* Hide the Robot and Dashboard Image on Phone */}
-      <div className="lg:mr-12 mb-6 lg:mb-0 relative flex flex-col items-center lg:mt-0 mt-6 hidden lg:block">
+      <div className="relative flex flex-col items-center hidden mt-6 mb-6 lg:mr-12 lg:mb-0 lg:mt-0 lg:block">
         <img
           src="/screen.png"
           alt="Screen Illustration"
@@ -57,17 +58,17 @@ const Team = () => {
       </div>
 
       {/* Team Component */}
-      <div className="relative w-96 h-96 sm:w-64 sm:h-64 rounded-full border-8 border-transparent bg-gray-50 flex items-center justify-center lg:mt-12 mt-6">
+      <div className="relative flex items-center justify-center mt-6 border-8 border-transparent rounded-full w-96 h-96 sm:w-64 sm:h-64 bg-gray-50 lg:mt-12">
         {/* Big Circle with Blurred Border */}
         <div
-          className="absolute inset-0 rounded-full blur-xl bg-gradient-to-r from-[#5DB996] to-[#a3e1c4] opacity-50"
+          className="absolute inset-0 rounded-full blur-2xl bg-gradient-to-r from-[#0f7b42] to-[#adc178] opacity-65"
           style={{ filter: "blur(20px)" }}
         ></div>
         
         {/* Make "Meet Our Team" Invisible when Hovering */}
         <div className={`text-center relative z-10 transition-all duration-300 ${hoveredMember !== null ? "opacity-0" : "opacity-100"}`}>
           <h1 className="text-4xl font-bold text-black sm:text-2xl">Meet Our</h1>
-          <h1 className="text-4xl font-bold text-[#5DB996] sm:text-2xl">Team</h1>
+          <h1 className="text-4xl font-bold text-[#0f7b42] sm:text-2xl">Team</h1>
         </div>
 
         {teamMembers.map((member, index) => {
@@ -100,7 +101,7 @@ const Team = () => {
                 <img
                   src={member.image}
                   alt={member.name}
-                  className="w-full h-full object-cover rounded-full"
+                  className="object-cover w-full h-full rounded-full"
                 />
               </div>
 
@@ -116,7 +117,7 @@ const Team = () => {
                   } left-1/2 transform -translate-x-1/2 w-48 bg-white rounded-lg shadow-lg p-4 text-center`}
                   style={{ zIndex: 10 }}
                 >
-                  <h2 className="text-lg font-bold text-gray-800 mb-2">
+                  <h2 className="mb-2 text-lg font-bold text-gray-800">
                     {member.name}
                   </h2>
                   <div className="flex justify-center space-x-3">
@@ -124,7 +125,7 @@ const Team = () => {
                       href={member.linkedin}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-blue-500 hover:text-blue-700 text-xl"
+                      className="text-xl text-blue-500 hover:text-blue-700"
                     >
                       <FaLinkedin />
                     </a>
@@ -132,13 +133,13 @@ const Team = () => {
                       href={member.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-gray-800 hover:text-gray-600 text-xl"
+                      className="text-xl text-gray-800 hover:text-gray-600"
                     >
                       <FaGithub />
                     </a>
                     <a
                       href={member.email}
-                      className="text-red-500 hover:text-red-700 text-xl"
+                      className="text-xl text-red-500 hover:text-red-700"
                     >
                       <FaEnvelope />
                     </a>

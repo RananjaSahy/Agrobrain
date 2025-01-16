@@ -33,33 +33,33 @@ const News = () => {
   }, []);
 
   return (
-    <div className="bg-[#5DB996] p-8 rounded-lg shadow-xl" id="news">
-      <h2 className="text-4xl font-extrabold text-white text-center mb-4">
+    <div className="bg-[#adc178] p-8 rounded-lg shadow-xl" id="news">
+      <h2 className="mb-4 text-4xl font-extrabold text-center text-white">
         Latest News
       </h2>
-      <p className="text-lg text-white text-center mb-8">
+      <p className="mb-8 text-lg text-center text-white">
         Stay updated with the latest trends and developments in the agriculture industry.
       </p>
 
       {loading ? (
-        <p className="text-white text-center">Loading...</p>
+        <p className="text-center text-white">Loading...</p>
       ) : (
         <div className="space-y-6">
           {news.map((article, index) => (
             <div
               key={index}
-              className="bg-white rounded-lg shadow-md p-6 hover:shadow-2xl transition duration-300"
+              className="p-6 transition duration-300 bg-white rounded-lg shadow-md hover:shadow-2xl"
             >
-              <h3 className="text-2xl font-semibold text-[#5DB996] mb-3">
+              <h3 className="text-2xl font-semibold text-[#adc178] mb-3">
                 {article.title}
               </h3>
-              <p className="text-gray-700 mb-4">{article.description}</p>
-              <div className="flex justify-between items-center">
+              <p className="mb-4 text-gray-700">{article.description}</p>
+              <div className="flex items-center justify-between">
                 <a
                   href={article.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-500 hover:text-blue-700 text-lg font-medium flex items-center"
+                  className="flex items-center text-lg font-medium text-blue-500 hover:text-blue-700"
                 >
                   Read more
                   <FaArrowRight className="ml-2" />
@@ -71,12 +71,12 @@ const News = () => {
       )}
 
       {/* View All News Button */}
-      <div className="text-center mt-6">
+      <div className="mt-6 text-center">
         <a
           href="/news"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-sm font-semibold text-white bg-[#5DB996] px-6 py-3 rounded-lg hover:bg-[#4a9f85] flex items-center justify-center mx-auto transition duration-200"
+          className="text-sm font-semibold text-white bg-[#577602] px-6 py-3 rounded-lg hover:bg-[#0f7b42] flex items-center justify-center mx-auto transition duration-200"
         >
           View All News
         </a>

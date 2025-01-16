@@ -3,11 +3,11 @@ import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <footer className="bg-[#5DB996] text-white py-8 p-8">
-      <div className="container mx-auto flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+    <footer className="bg-[#adc178] text-white py-8 p-8">
+      <div className="container flex flex-col items-center justify-between mx-auto space-y-4 md:flex-row md:space-y-0">
         {/* Left Section */}
         <div className="text-center md:text-left">
-          <h3 className="text-2xl font-bold mb-2">Agrobrain</h3>
+          <h3 className="mb-2 text-2xl font-bold">Agrobrain</h3>
           <p>&copy; 2025 Agrobrain. All Rights Reserved.</p>
         </div>
 
