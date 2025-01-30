@@ -27,42 +27,32 @@ const WhatAreWeCapableOf = () => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
-    // Change active card every 2 seconds
     const interval = setInterval(() => {
       setActiveIndex((prevIndex) => (prevIndex + 1) % cards.length);
     }, 2000);
-
     return () => clearInterval(interval);
   }, [cards.length]);
 
   return (
-    <div className="flex flex-col items-center justify-center bg-gray-100 p-8" id="about">
+    <div className="flex flex-col items-center justify-center bg-gray-100 p-6" id="about">
+      <h2 className="text-3xl md:text-5xl font-bold text-teal-600 mb-8 text-center text-shadow">
+        What are we capable of:
+      </h2>
 
-      <h2 className="text-5xl font-bold text-teal-600 mb-12 p-4 rounded-md text-center text-shadow">
-  <span className="text-shadow-lg">
-    What are we capable of:
-  </span>
-</h2>
-
-      <div className="flex gap-8 justify-center">
+      <div className="flex flex-wrap gap-4 justify-center">
         {cards.map((card, index) => (
           <motion.div
             key={index}
-            className={`w-80 p-6 bg-white rounded-lg shadow-lg flex flex-col items-start transform transition-transform duration-500 ease-in-out`}
+            className={`w-full sm:w-80 p-6 bg-white rounded-lg shadow-lg flex flex-col items-start transform transition-transform duration-500 ease-in-out`}
             animate={{
-              scale: index === activeIndex ? 1 : 0.5, // Scale active card to 1 and others to 0.5
+              scale: index === activeIndex ? 1 : 0.9,
             }}
           >
-            {/* Icon */}
             <div className="text-teal-600 mb-4">{card.icon}</div>
-
-            {/* Title */}
-            <h3 className="text-xl font-semibold mb-2 text-teal-700">
+            <h3 className="text-lg md:text-xl font-semibold mb-2 text-teal-700">
               {card.title}
             </h3>
-
-            {/* Description */}
-            <p className="text-gray-600">{card.description}</p>
+            <p className="text-sm md:text-base text-gray-600">{card.description}</p>
           </motion.div>
         ))}
       </div>

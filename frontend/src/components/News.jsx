@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { FaArrowRight } from "react-icons/fa"; // React Icon for the arrow
-
+import { useNavigate } from "react-router-dom";
 const News = () => {
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const navigate = useNavigate();
   useEffect(() => {
     // Fetching the top 3 news from the agriculture industry
     const fetchNews = async () => {
@@ -73,7 +73,7 @@ const News = () => {
       {/* View All News Button */}
       <div className="text-center mt-6">
         <a
-          href="/news"
+          onClick={() => navigate("/news")}
           target="_blank"
           rel="noopener noreferrer"
           className="text-sm font-semibold text-white bg-[#5DB996] px-6 py-3 rounded-lg hover:bg-[#4a9f85] flex items-center justify-center mx-auto transition duration-200"

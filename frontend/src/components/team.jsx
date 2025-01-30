@@ -12,9 +12,10 @@ const teamMembers = [
   {
     name: "Debjoyti",
     image: "/i1.jpg",
-    linkedin: "https://linkedin.com/in/janesmith",
-    github: "https://github.com/janesmith",
-    email: "mailto:janesmith@example.com",
+    linkedin: "https://www.linkedin.com/in/debjyotishit/",
+    github: "https://github.com/Debjyoti2004",
+    email: "mailto:debjyotishit27@gmail.com",
+
   },
   {
     name: "Sujoy",

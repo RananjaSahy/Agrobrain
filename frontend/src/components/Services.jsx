@@ -1,5 +1,6 @@
 import React from "react";
-import { FaSeedling} from "react-icons/fa";
+import { FaSeedling } from "react-icons/fa";
+
 const services = [
   {
     title: "Soil Analysis",
@@ -29,15 +30,15 @@ const services = [
 
 const Services = () => {
   return (
-    <div className="bg-[#5DB996] py-12 px-6 relative" id="services">
-      <h2 className="text-5xl font-bold text-white text-center mb-6 text-shadow">
+    <div className="bg-[#5DB996] py-12 px-4 md:px-8 relative" id="services">
+      <h2 className="text-3xl md:text-5xl font-bold text-white text-center mb-6 text-shadow">
         Our Services
       </h2>
-      <p className="text-center text-gray-600 mb-10">
+      <p className="text-center text-gray-100 mb-10 max-w-3xl mx-auto text-sm md:text-base">
         At AgroBrain, we combine the power of AI and innovation to bring valuable services
         that transform traditional farming into smart farming.
       </p>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {services.map((service, index) => (
           <div
             key={index}
@@ -46,18 +47,20 @@ const Services = () => {
             <img
               src={service.image}
               alt={service.title}
-              className="h-56 w-full object-cover"
+              className="h-48 w-full object-cover md:h-56"
             />
             <div className="absolute inset-0 bg-black bg-opacity-60 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4">
-              <p className="text-sm">{service.description}</p>
+              <p className="text-xs md:text-sm text-center">{service.description}</p>
             </div>
-            <h3 className="text-center font-bold text-xl p-4">{service.title}</h3>
+            <h3 className="text-center font-bold text-lg md:text-xl p-4">
+              {service.title}
+            </h3>
           </div>
         ))}
       </div>
       <div className="absolute top-4 right-4">
-  <FaSeedling className="text-white text-8xl" />
-</div>
+        <FaSeedling className="text-white text-4xl md:text-8xl" />
+      </div>
     </div>
   );
 };
