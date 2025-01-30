@@ -34,12 +34,15 @@ const WhatAreWeCapableOf = () => {
   }, [cards.length]);
 
   return (
-    <div className="flex flex-col items-center justify-center bg-gray-100 p-6" id="about">
-      <h2 className="text-3xl md:text-5xl font-bold text-teal-600 mb-8 text-center text-shadow">
-        What are we capable of:
-      </h2>
+    <div className="flex flex-col items-center justify-center bg-gray-100 p-8" id="about">
 
-      <div className="flex flex-wrap gap-4 justify-center">
+      <h2 className="text-5xl font-bold text-teal-600 mb-12 p-4 rounded-md text-center text-shadow">
+  <span className="text-shadow-lg">
+    What are we capable of:
+  </span>
+</h2>
+
+      <div className="flex gap-8 justify-center">
         {cards.map((card, index) => (
           <motion.div
             key={index}
@@ -48,8 +51,11 @@ const WhatAreWeCapableOf = () => {
               scale: index === activeIndex ? 1 : 0.9,
             }}
           >
+            {/* Icon */}
             <div className="text-teal-600 mb-4">{card.icon}</div>
-            <h3 className="text-lg md:text-xl font-semibold mb-2 text-teal-700">
+
+            {/* Title */}
+            <h3 className="text-xl font-semibold mb-2 text-teal-700">
               {card.title}
             </h3>
             <p className="text-sm md:text-base text-gray-600">{card.description}</p>
