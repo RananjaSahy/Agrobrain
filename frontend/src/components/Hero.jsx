@@ -5,7 +5,7 @@ const HeroSection = () => {
   return (
     <div className="relative w-full h-screen overflow-hidden">
       <video
-        className="absolute top-0 left-0 w-full h-full object-cover md:object-cover md:h-screen sm:h-[70vh]" // Adjust height for small screens
+        className="absolute top-0 left-0 w-full h-full object-cover p-3 md:object-cover md:h-screen sm:h-[30vh]" // Adjust height for small screens
         src={videoSrc}
         autoPlay
         loop

@@ -19,8 +19,8 @@ const teamMembers = [
   {
     name: "Debjoyti",
     image: "/i4.png",
-    linkedin: "https://linkedin.com/in/janesmith",
-    github: "https://www.linkedin.com/in/debjyotishit/",
+    linkedin: "https://www.linkedin.com/in/debjyotishit/",
+    github: "https://github.com/Debjyoti2004",
     email: "mailto:debjyotishit27@gmail.com",
   },
   {

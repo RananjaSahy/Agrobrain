@@ -41,8 +41,8 @@ const FeedbackForm = () => {
     <div className="flex items-center justify-center p-8 bg-gray-100 rounded-lg shadow-md">
       <div className="flex justify-between w-full max-w-4xl gap-6">
         {/* Feedback Form */}
-        <div className="w-full md:w-1/2 p-6 bg-[#E3F0AF] rounded-lg shadow-lg">
-          <h2 className="text-3xl font-bold text-[#a3b18a] mb-4 text-center">
+        <div className="w-full md:w-1/2 p-6 bg-[#5DB996] rounded-lg shadow-lg">
+          <h2 className="text-3xl font-bold text-[#5DB996] mb-4 text-center">
             Send Us Your Feedback
           </h2>
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -84,13 +84,13 @@ const FeedbackForm = () => {
             </div>
 
             {status && (
-              <p className="font-semibold text-center text-[#588157]">{status}</p>
+              <p className="font-semibold text-center text-[#5DB996]">{status}</p>
             )}
 
             <div className="text-center">
               <button
                 type="submit"
-                className="w-full text-white bg-[#577602] p-3 rounded-lg hover:bg-[#0f7b42] transition duration-200"
+                className="w-full text-white bg-[#5DB996] p-3 rounded-lg hover:bg-[#0f7b42] transition duration-200"
                 disabled={loading}
               >
                 {loading ? "Sending..." : "Send Feedback"}

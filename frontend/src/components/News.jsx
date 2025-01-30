@@ -33,7 +33,7 @@ const News = () => {
   }, []);
 
   return (
-    <div className="bg-[#adc178] p-8 rounded-lg shadow-xl" id="news">
+    <div className="bg-[#5DB996] p-8 rounded-lg shadow-xl" id="news">
       <h2 className="mb-4 text-4xl font-extrabold text-center text-white">
         Latest News
       </h2>
@@ -50,7 +50,7 @@ const News = () => {
               key={index}
               className="p-6 transition duration-300 bg-white rounded-lg shadow-md hover:shadow-2xl"
             >
-              <h3 className="text-2xl font-semibold text-[#adc178] mb-3">
+              <h3 className="text-2xl font-semibold text-[#5DB996] mb-3">
                 {article.title}
               </h3>
               <p className="mb-4 text-gray-700">{article.description}</p>
@@ -76,7 +76,7 @@ const News = () => {
           href="/news"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-sm font-semibold text-white bg-[#577602] px-6 py-3 rounded-lg hover:bg-[#0f7b42] flex items-center justify-center mx-auto transition duration-200"
+          className="text-sm font-semibold text-white bg-[#5DB996] px-6 py-3 rounded-lg hover:bg-[#0f7b42] flex items-center justify-center mx-auto transition duration-200"
         >
           View All News
         </a>
