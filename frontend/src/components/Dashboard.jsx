@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import Sidebar from "./Sidebar";
+import axios from "axios";
+import EditLocation from "./Editlocation";
+import { Button } from "./components/ui/button";
 
-export default function Dashboard() {
+const Dashboard = () => {
   const { user, isAuthenticated, loginWithRedirect } = useAuth0();
+  const[Edit,SetEdit] = useState(false);
   const [userData, setUserData] = useState({
     fieldsOwned: 0,
     cropsPlanted: 0,
@@ -11,7 +15,17 @@ export default function Dashboard() {
     cropAnalyses: 0,
     diseaseDetections: 0,
     weatherReports: 0,
+    location: "Unknown", // Add location field here
   });
+
+  // Function to refresh user data after location change
+  const handleLocationUpdate = (newLocation) => {
+    setUserData((prevData) => ({
+      ...prevData,
+      location: newLocation, // Update location in state
+    }));
+    SetEdit(false)
+  };
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -23,7 +37,6 @@ export default function Dashboard() {
       loginWithRedirect();
     }
   }, [isAuthenticated, user, loginWithRedirect]);
-
   return (
     <div className="flex h-screen bg-gradient-to-r from-green-100 to-white">
       <Sidebar />
@@ -31,7 +44,7 @@ export default function Dashboard() {
       {/* Main Content */}
       <div className="flex-grow p-8 overflow-y-auto">
         <h2 className="text-3xl font-bold mb-6">Dashboard</h2>
-
+       
         {/* Profile Card */}
         <div className="bg-white shadow-lg rounded-2xl p-6 flex items-center gap-6">
           <img
@@ -45,6 +58,11 @@ export default function Dashboard() {
             </h3>
             <p className="text-gray-600">
               Location: {userData?.location || "Unknown"}
+             {Edit && <EditLocation onLocationUpdate={handleLocationUpdate} />} 
+             <button onClick={()=>SetEdit(!Edit)} className="m-4 bg-[#5DB996] text-white px-6 py-2 rounded-full font-semibold hover:bg-[#118B50] focus:outline-none focus:ring-2 focus:ring-blue-300">
+  {Edit ? "Cancel": "Edit"}
+</button>
+
             </p>
           </div>
         </div>
@@ -70,7 +88,7 @@ export default function Dashboard() {
       </div>
     </div>
   );
-}
+};
 
 function Card({ title, value }) {
   return (
@@ -80,3 +98,5 @@ function Card({ title, value }) {
     </div>
   );
 }
+
+export default Dashboard;
