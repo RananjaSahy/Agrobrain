@@ -1,15 +1,33 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import image from "../assets/logo.png";
 import { useAuth0 } from "@auth0/auth0-react";
 
 const Navbar = () => {
-  const { loginWithRedirect, logout, isAuthenticated } = useAuth0();
+  const { loginWithRedirect, logout,  user, isAuthenticated, isLoading, error } = useAuth0();
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
    console.log(isAuthenticated)
   const toggleMenu = () => setMenuOpen(!menuOpen);
-
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      const saveUserToDB = async () => {
+        try {
+          await fetch("http://localhost:5000/api/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              email: user.email,
+              name: user.name,
+            }),
+          });
+        } catch (err) {
+          console.error("Error saving user:", err);
+        }
+      };
+      saveUserToDB();
+    }
+  }, [isAuthenticated, user]);
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white bg-opacity-90 backdrop-blur shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

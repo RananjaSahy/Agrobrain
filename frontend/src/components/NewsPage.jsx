@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import image from "../assets/logo.png";
 import { useNavigate } from "react-router-dom";
+import LoadingComponent from "./Loding";
 // News API Key and Endpoint
 const API_KEY = "53c8d29069084e49af47d657d3c57daa"; // Use your own API key
 const API_URL = "https://newsapi.org/v2/everything";
@@ -33,7 +34,7 @@ const NewsPage = () => {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <LoadingComponent/>;
   }
 
   if (error) {

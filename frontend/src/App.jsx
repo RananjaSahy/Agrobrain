@@ -4,17 +4,18 @@ import Page1 from "./components/Page1";
 import LoginPage from "./components/Loginpage";
 import Dashboard from "./components/Dashboard";
 import NewsPage from "./components/NewsPage";
-
 function App() {
   return (
     <Auth0Provider
-      domain="dev-wcbj6ku3e6hjqg6e.us.auth0.com"
-      clientId="Ajwm7A1kdZfhxas13PjoSvc78IRU3jLv"
-      authorizationParams={{
-        redirect_uri: window.location.origin,
-      }}
-      cacheLocation="localstorage"
-    >
+    domain="dev-wcbj6ku3e6hjqg6e.us.auth0.com"
+    clientId="TQbRv1GmH6is98RULl6cciktkdTdgOo7"
+    authorizationParams={{
+      redirect_uri: window.location.origin
+    }}
+  audience="https://dev-wcbj6ku3e6hjqg6e.us.auth0.com/api/v2/"
+  useRefreshTokens
+  cacheLocation="localstorage"
+  >
       <Router>
         <Routes>
           <Route path="/" element={<Page1 />} />
