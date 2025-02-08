@@ -4,6 +4,7 @@ import Page1 from "./components/Page1";
 import LoginPage from "./components/Loginpage";
 import Dashboard from "./components/Dashboard";
 import NewsPage from "./components/NewsPage";
+import Weather from "./components/Weather";
 function App() {
   return (
     <Auth0Provider
@@ -21,7 +22,8 @@ function App() {
           <Route path="/" element={<Page1 />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/news" element={<NewsPage/>} />
-          <Route path="/dashboard" element={<Dashboard/>} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/weather" element={<Weather/>} />
         </Routes>
       </Router>
     </Auth0Provider>

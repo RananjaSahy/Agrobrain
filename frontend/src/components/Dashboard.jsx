@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import Sidebar from "./Sidebar";
-import axios from "axios";
 import EditLocation from "./Editlocation";
-import { Button } from "./components/ui/button";
 
 const Dashboard = () => {
   const { user, isAuthenticated, loginWithRedirect } = useAuth0();
-  const[Edit,SetEdit] = useState(false);
+  const [Edit, SetEdit] = useState(false);
   const [userData, setUserData] = useState({
     fieldsOwned: 0,
     cropsPlanted: 0,
@@ -15,28 +13,55 @@ const Dashboard = () => {
     cropAnalyses: 0,
     diseaseDetections: 0,
     weatherReports: 0,
-    location: "Unknown", // Add location field here
+    location: "Fetching location...", // Default value before fetching location
   });
 
-  // Function to refresh user data after location change
-  const handleLocationUpdate = (newLocation) => {
-    setUserData((prevData) => ({
-      ...prevData,
-      location: newLocation, // Update location in state
-    }));
-    SetEdit(false)
+  // Fetch user's location from coordinates
+  const fetchLocationFromCoords = async (latitude, longitude) => {
+    try {
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`
+      );
+      const data = await response.json();
+      const locationName = data?.address?.city || data?.address?.state || "Unknown";
+      setUserData((prevData) => ({
+        ...prevData,
+        location: locationName,
+      }));
+    } catch (error) {
+      console.error("Error fetching location:", error);
+    }
   };
 
   useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          fetchLocationFromCoords(latitude, longitude);
+        },
+        (error) => {
+          console.error("Error getting location:", error);
+          setUserData((prevData) => ({
+            ...prevData,
+            location: "Location not available",
+          }));
+        }
+      );
+    } else {
+      console.error("Geolocation is not supported by this browser.");
+    }
+
     if (isAuthenticated) {
       fetch(`/api/user-data?email=${user?.email}`)
         .then((res) => res.json())
-        .then((data) => setUserData(data))
+        .then((data) => setUserData((prevData) => ({ ...prevData, ...data })))
         .catch((err) => console.error("Error fetching data:", err));
     } else {
       loginWithRedirect();
     }
   }, [isAuthenticated, user, loginWithRedirect]);
+
   return (
     <div className="flex h-screen bg-gradient-to-r from-green-100 to-white">
       <Sidebar />
@@ -44,7 +69,7 @@ const Dashboard = () => {
       {/* Main Content */}
       <div className="flex-grow p-8 overflow-y-auto">
         <h2 className="text-3xl font-bold mb-6">Dashboard</h2>
-       
+
         {/* Profile Card */}
         <div className="bg-white shadow-lg rounded-2xl p-6 flex items-center gap-6">
           <img
@@ -58,11 +83,13 @@ const Dashboard = () => {
             </h3>
             <p className="text-gray-600">
               Location: {userData?.location || "Unknown"}
-             {Edit && <EditLocation onLocationUpdate={handleLocationUpdate} />} 
-             <button onClick={()=>SetEdit(!Edit)} className="m-4 bg-[#5DB996] text-white px-6 py-2 rounded-full font-semibold hover:bg-[#118B50] focus:outline-none focus:ring-2 focus:ring-blue-300">
-  {Edit ? "Cancel": "Edit"}
-</button>
-
+              {Edit && <EditLocation onLocationUpdate={(newLoc) => setUserData({ ...userData, location: newLoc })} />}
+              <button
+                onClick={() => SetEdit(!Edit)}
+                className="m-4 bg-[#5DB996] text-white px-6 py-2 rounded-full font-semibold hover:bg-[#118B50] focus:outline-none focus:ring-2 focus:ring-blue-300"
+              >
+                {Edit ? "Cancel" : "Edit"}
+              </button>
             </p>
           </div>
         </div>
