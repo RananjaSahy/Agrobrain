@@ -1,10 +1,13 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {BrowserRouter,Routes,Route} from "react-router-dom"
 import { Auth0Provider } from "@auth0/auth0-react";
 import Page1 from "./components/Page1";
 import LoginPage from "./components/Loginpage";
 import Dashboard from "./components/Dashboard";
 import NewsPage from "./components/NewsPage";
 import Weather from "./components/Weather";
+import NotFound from "./components/NotFound";
+import Fields from "./components/fields";
+import "./App.css";
 function App() {
   return (
     <Auth0Provider
@@ -17,15 +20,17 @@ function App() {
   useRefreshTokens
   cacheLocation="localstorage"
   >
-      <Router>
+      <BrowserRouter>
         <Routes>
           <Route path="/" element={<Page1 />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/news" element={<NewsPage/>} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/weather" element={<Weather/>} />
+          <Route path="/Fields" element={<Fields/>} />
+          <Route path="*" element={<NotFound/>} />
         </Routes>
-      </Router>
+      </BrowserRouter>
     </Auth0Provider>
   );
 }

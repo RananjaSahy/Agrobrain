@@ -1,36 +1,69 @@
-
 import { useState } from "react";
-import axios from "axios";
-import { useAuth0 } from "@auth0/auth0-react";
-const EditLocation = ({ onLocationUpdate }) => {
-    const {user} = useAuth0();
-  const [email, setEmail] = useState(user.email);
-  const [newLocation, setNewLocation] = useState("");
 
-  const handleUpdateLocation = async () => {
+const EditLocation = ({ onLocationUpdate }) => {
+  const [newLocation, setNewLocation] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!newLocation.trim()) return;
+
+    setIsSubmitting(true);
+    setError("");
+
     try {
-      const response = await axios.post("http://localhost:5000/api/update-location", {
-        email,
-        newLocation,
-      });
-      alert(`Location updated to: ${response.data.user.location}`);
-      // Call the callback function to refresh user data in Dashboard component
-      onLocationUpdate(response.data.user.location);
+      // First verify if the city exists in OpenWeatherMap
+      const apiKey = "82e7c90c7c53900a524412184efb2c8f";
+      const weatherResponse = await fetch(
+        `https://api.openweathermap.org/data/2.5/weather?q=${newLocation}&appid=${apiKey}`
+      );
+
+      if (!weatherResponse.ok) {
+        throw new Error("City not found. Please enter a valid city name.");
+      }
+
+      const weatherData = await weatherResponse.json();
+      const validatedCityName = weatherData.name; // Use the official city name from API
+
+      // Store in localStorage
+      localStorage.setItem("user_location", validatedCityName);
+      
+      // Update the UI
+      onLocationUpdate(validatedCityName);
+      setNewLocation("");
+      
     } catch (error) {
-      alert("Error updating location: " + error.response.data.error);
+      setError(error.message || "Failed to update location");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
     <div>
-      <input
-        type="text"
-        placeholder="Enter new location"
-        value={newLocation}
-        onChange={(e) => setNewLocation(e.target.value)}
-      />
-      <button onClick={handleUpdateLocation}>Update Location</button>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+        <input
+          type="text"
+          value={newLocation}
+          onChange={(e) => setNewLocation(e.target.value)}
+          placeholder="Enter city name"
+          className="px-3 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-green-500"
+          disabled={isSubmitting}
+        />
+        {error && (
+          <p className="text-sm text-red-500">{error}</p>
+        )}
+        <button
+          type="submit"
+          className="px-4 py-2 text-white bg-green-500 rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 disabled:bg-gray-400"
+          disabled={isSubmitting || !newLocation.trim()}
+        >
+          {isSubmitting ? "Updating..." : "Update Location"}
+        </button>
+      </form>
     </div>
   );
 };
-export default EditLocation
+
+export default EditLocation;

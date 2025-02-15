@@ -1,26 +1,24 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { FaArrowRight } from "react-icons/fa"; // React Icon for the arrow
+import { FaArrowRight, FaLeaf } from "react-icons/fa";
+import { motion, AnimatePresence } from "framer-motion";
+import { Skeleton } from "@mui/material"; // Optional: Install @mui/material for better skeletons
 
 const News = () => {
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Fetching the top 3 news from the agriculture industry
     const fetchNews = async () => {
       try {
-        const response = await axios.get(
-          "https://newsapi.org/v2/everything",
-          {
-            params: {
-              q: "agriculture",
-              sortBy: "publishedAt", // Sort by most recent
-              pageSize: 3, // Top 3 news
-              apiKey: "53c8d29069084e49af47d657d3c57daa", // Replace with your NewsAPI key
-            },
-          }
-        );
+        const response = await axios.get("https://newsapi.org/v2/everything", {
+          params: {
+            q: "agriculture sustainable farming",
+            sortBy: "publishedAt",
+            pageSize: 3,
+            apiKey: "53c8d29069084e49af47d657d3c57daa",
+          },
+        });
         setNews(response.data.articles);
         setLoading(false);
       } catch (error) {
@@ -32,56 +30,123 @@ const News = () => {
     fetchNews();
   }, []);
 
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0 },
+  };
+
   return (
-    <div className="bg-[#5DB996] p-8 rounded-lg shadow-xl" id="news">
-      <h2 className="mb-4 text-4xl font-extrabold text-center text-white">
-        Latest News
-      </h2>
-      <p className="mb-8 text-lg text-center text-white">
-        Stay updated with the latest trends and developments in the agriculture industry.
-      </p>
-
-      {loading ? (
-        <p className="text-center text-white">Loading...</p>
-      ) : (
-        <div className="space-y-6">
-          {news.map((article, index) => (
-            <div
-              key={index}
-              className="p-6 transition duration-300 bg-white rounded-lg shadow-md hover:shadow-2xl"
-            >
-              <h3 className="text-2xl font-semibold text-[#5DB996] mb-3">
-                {article.title}
-              </h3>
-              <p className="mb-4 text-gray-700">{article.description}</p>
-              <div className="flex items-center justify-between">
-                <a
-                  href={article.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center text-lg font-medium text-blue-500 hover:text-blue-700"
-                >
-                  Read more
-                  <FaArrowRight className="ml-2" />
-                </a>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {/* View All News Button */}
-      <div className="mt-6 text-center">
-        <a
-          href="/news"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-sm font-semibold text-white bg-[#5DB996] px-6 py-3 rounded-lg hover:bg-[#0f7b42] flex items-center justify-center mx-auto transition duration-200"
+    <section className="py-16 bg-gradient-to-b from-green-50 to-white" id="news">
+      <div className="container px-4 mx-auto max-w-7xl">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="mb-12 text-center"
         >
-          View All News
-        </a>
+          <div className="inline-block p-4 mb-4 bg-green-100 rounded-full">
+            <FaLeaf className="text-4xl text-green-700" />
+          </div>
+          <h2 className="mb-4 text-4xl font-bold font-playfair">
+            <span className="text-gray-800">Agricultural</span>{" "}
+            <span className="text-[#5DB996]">Insights</span>
+          </h2>
+          <p className="text-lg text-gray-600">
+            Stay updated with the latest innovations in sustainable farming
+          </p>
+        </motion.div>
+
+        <AnimatePresence>
+          {loading ? (
+            <div className="grid gap-8 md:grid-cols-3">
+              {[...Array(3)].map((_, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="p-6 bg-white rounded-lg shadow-md"
+                >
+                  <Skeleton variant="rectangular" height={200} className="mb-4 rounded-lg" />
+                  <Skeleton variant="text" width="80%" height={32} />
+                  <Skeleton variant="text" width="100%" height={72} />
+                </motion.div>
+              ))}
+            </div>
+          ) : (
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              animate="show"
+              className="grid gap-8 md:grid-cols-3"
+            >
+              {news.map((article, index) => (
+                <motion.div
+                  key={index}
+                  variants={itemVariants}
+                  className="overflow-hidden bg-white rounded-lg shadow-lg transition-shadow duration-300 hover:shadow-xl"
+                >
+                  {article.urlToImage && (
+                    <div className="overflow-hidden relative h-48">
+                      <img
+                        src={article.urlToImage}
+                        alt={article.title}
+                        className="object-cover w-full h-full transition-transform duration-500 hover:scale-105"
+                        onError={(e) => {
+                          e.target.src = '/fallback-agriculture-image.jpg'; // Add fallback image
+                        }}
+                      />
+                    </div>
+                  )}
+                  <div className="p-6">
+                    <h3 className="mb-3 text-xl font-semibold text-green-800">
+                      {article.title}
+                    </h3>
+                    <p className="mb-4 text-gray-600 line-clamp-3">
+                      {article.description}
+                    </p>
+                    <motion.a
+                      href={article.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center font-medium text-green-700 hover:text-green-900 group"
+                      whileHover={{ x: 5 }}
+                    >
+                      Read More
+                      <FaArrowRight className="ml-2 transition-transform group-hover:translate-x-1" />
+                    </motion.a>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          className="mt-12 text-center"
+        >
+          <a
+            href="/news"
+            className="inline-flex items-center px-8 py-3 text-lg font-medium text-white bg-green-700 rounded-lg transition-all duration-300 hover:bg-green-800 hover:shadow-lg"
+          >
+            Explore More Insights
+            <FaArrowRight className="ml-2 transition-transform group-hover:translate-x-1" />
+          </a>
+        </motion.div>
       </div>
-    </div>
+    </section>
   );
 };
 

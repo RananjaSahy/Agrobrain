@@ -1,3 +1,4 @@
+
 .news-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -42,4 +43,23 @@
   .news-content a:hover {
     text-decoration: underline;
   }
+  html {
+    scroll-behavior: smooth;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
   
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+  body {
+    overflow-x: hidden;
+  }
+
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap');
+
+.font-playfair {
+  font-family: 'Playfair Display', serif;
+}

@@ -41,14 +41,14 @@ const Services = () => {
         {services.map((service, index) => (
           <div
             key={index}
-            className="relative overflow-hidden transition-shadow duration-300 bg-white rounded-lg shadow-md group hover:shadow-xl"
+            className="overflow-hidden relative bg-white rounded-lg shadow-md transition-shadow duration-300 group hover:shadow-xl"
           >
             <img
               src={service.image}
               alt={service.title}
               className="object-cover w-full h-56"
             />
-            <div className="absolute inset-0 flex items-center justify-center p-4 text-white transition-opacity duration-300 bg-black opacity-0 bg-opacity-60 group-hover:opacity-100">
+            <div className="flex absolute inset-0 justify-center items-center p-4 text-white bg-black bg-opacity-60 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
               <p className="text-sm">{service.description}</p>
             </div>
             <h3 className="p-4 text-xl font-bold text-center">{service.title}</h3>
@@ -56,7 +56,7 @@ const Services = () => {
         ))}
       </div>
       <div className="absolute top-4 right-4">
-  <FaSeedling className="text-white text-8xl" />
+  <FaSeedling className="text-8xl text-white" />
 </div>
     </div>
   );

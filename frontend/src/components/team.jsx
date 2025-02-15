@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaLinkedin, FaGithub, FaEnvelope } from "react-icons/fa";
 
 const teamMembers = [
   {
     name: "Progya",
+    role: "Software Engineer",
     image: "/i1.jpg",
     linkedin: "https://www.linkedin.com/in/progya-bhattacharjee-427149298",
     github: "https://github.com/ProgyaBhattachrjee",
@@ -11,144 +12,155 @@ const teamMembers = [
   },
   {
     name: "Sujoy",
+    role: "Full Stack Developer",
     image: "/i2.jpg",
     linkedin: "https://www.linkedin.com/in/dutta-sujoy",
     github: "https://github.com/dutta-sujoy",
     email: "mailto:duttasujoy1415@gmail.com",
   },
   {
-    name: "Debjoyti",
+    name: "Debjyoti",
+    role: "DevOps | Fullstack Developer | Cloud Engineer",
     image: "/i4.png",
     linkedin: "https://www.linkedin.com/in/debjyotishit/",
     github: "https://github.com/Debjyoti2004",
     email: "mailto:debjyotishit27@gmail.com",
-  },
+},
   {
     name: "Sagnik",
+    role: "Frontend Developer",
     image: "/i3.jpg",
     linkedin: "https://linkedin.com/in/bobbrown",
     github: "https://www.linkedin.com/in/sagnik-mitra10",
     email: "mailto:sagnikmitra008@gmail.com",
   },
-  
 ];
 
 const Team = () => {
   const [hoveredMember, setHoveredMember] = useState(null);
+  const [rotation, setRotation] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      const newRotation = (scrollPosition % 360) * 0.5;
+      setRotation(newRotation);
+    };
+
+    const handleVisibility = () => {
+      const element = document.getElementById('team-section');
+      if (element) {
+        const rect = element.getBoundingClientRect();
+        const isVisible = rect.top < window.innerHeight && rect.bottom >= 0;
+        setIsVisible(isVisible);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleVisibility);
+    handleVisibility(); 
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('scroll', handleVisibility);
+    };
+  }, []);
 
   return (
-    <div className="relative flex flex-col items-center justify-center min-h-screen px-10 bg-gray-100 lg:flex-row" id="contact">
-      {/* Hide the Robot and Dashboard Image on Phone */}
-      <div className="relative flex flex-col items-center hidden mt-6 mb-6 lg:mr-12 lg:mb-0 lg:mt-0 lg:block">
-        <img
-          src="/screen.png"
-          alt="Screen Illustration"
-          style={{ width: "600px", height: "300px", marginRight: "30px" }}
-        />
-        <img
-          src="/robot.png"
-          alt="Robot Illustration"
-          style={{
-            width: "400px",
-            height: "400px",
-            position: "absolute",
-            top: "0",
-          }}
-        />
+    <div id="team-section" className="relative py-20 min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
+      <div className="overflow-hidden absolute inset-0">
+        <div className="absolute w-full h-full bg-[url('/grid.png')] opacity-5"></div>
+        <div className="absolute top-0 left-0 w-1/2 h-1/2 bg-gradient-to-br from-green-100 to-transparent rounded-full opacity-20 blur-3xl"></div>
+        <div className="absolute right-0 bottom-0 w-1/2 h-1/2 bg-gradient-to-tl from-blue-100 to-transparent rounded-full opacity-20 blur-3xl"></div>
       </div>
 
-      {/* Team Component */}
-      <div className="relative flex items-center justify-center mt-6 border-8 border-transparent rounded-full w-96 h-96 sm:w-64 sm:h-64 bg-gray-50 lg:mt-12">
-        {/* Big Circle with Blurred Border */}
-        <div
-          className="absolute inset-0 rounded-full blur-2xl bg-gradient-to-r from-[#0f7b42] to-[#adc178] opacity-65"
-          style={{ filter: "blur(20px)" }}
-        ></div>
-        
-        {/* Make "Meet Our Team" Invisible when Hovering */}
-        <div className={`text-center relative z-10 transition-all duration-300 ${hoveredMember !== null ? "opacity-0" : "opacity-100"}`}>
-          <h1 className="text-4xl font-bold text-black sm:text-2xl">Meet Our</h1>
-          <h1 className="text-4xl font-bold text-[#0f7b42] sm:text-2xl">Team</h1>
+      <div className="container px-4 mx-auto">
+        <div className="mb-16 text-center">
+          <h1 className="mb-4 text-4xl font-bold text-gray-800 md:text-5xl">
+            Meet Our <span className="text-[#5DB996]">Team</span>
+          </h1>
+          <p className="mx-auto max-w-2xl text-lg text-gray-600">
+            Dedicated professionals working together to bring innovation and excellence to every project.
+          </p>
         </div>
+        <div className="flex relative justify-center items-center">
+          <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
+            <div className="relative w-[600px] h-[600px] mx-auto">
+              {teamMembers.map((member, index) => {
+                const angle = ((360 / teamMembers.length) * index + rotation) * (Math.PI / 180);
+                const radius = 250;
+                const x = Math.cos(angle) * radius;
+                const y = Math.sin(angle) * radius;
 
-        {teamMembers.map((member, index) => {
-          const angle = (360 / teamMembers.length) * index;
-          const radius = 150; // Reduced radius to make circles closer
-          const x = Math.cos((angle * Math.PI) / 180) * radius;
-          const y = Math.sin((angle * Math.PI) / 180) * radius;
+                return (
+                  <div
+                    key={index}
+                    className="absolute transition-all duration-300 transform -translate-x-1/2 -translate-y-1/2"
+                    style={{
+                      left: `${300 + x}px`,
+                      top: `${300 + y}px`,
+                      zIndex: hoveredMember === index ? 50 : 1,
+                    }}
+                    onMouseEnter={() => setHoveredMember(index)}
+                    onMouseLeave={() => setHoveredMember(null)}
+                  >
+                    <div className={`group relative transition-all duration-300 ${
+                      hoveredMember === index ? 'scale-110' : 'scale-100'
+                    }`}>
+                      <div className="overflow-hidden w-32 h-32 rounded-full border-4 border-white shadow-lg transition-transform duration-300 group-hover:border-green-400">
+                        <img
+                          src={member.image}
+                          alt={member.name}
+                          className="object-cover w-full h-full"
+                        />
+                      </div>
+                      
+                      {hoveredMember === index && (
+                        <div className="absolute -bottom-24 left-1/2 p-4 w-64 text-center bg-white rounded-xl shadow-2xl transform -translate-x-1/2">
+                          <h3 className="mb-1 text-xl font-bold text-gray-800">{member.name}</h3>
+                          <p className="mb-3 text-sm text-gray-600">{member.role}</p>
+                          <div className="flex justify-center space-x-4">
+                            <a
+                              href={member.linkedin}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-blue-500 transition-colors hover:text-blue-600"
+                            >
+                              <FaLinkedin size={24} />
+                            </a>
+                            <a
+                              href={member.github}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-gray-700 transition-colors hover:text-gray-900"
+                            >
+                              <FaGithub size={24} />
+                            </a>
+                            <a
+                              href={member.email}
+                              className="text-red-500 transition-colors hover:text-red-600"
+                            >
+                              <FaEnvelope size={24} />
+                            </a>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
 
-          const isTop = y < 0; // If the circle is on the top
-          const isSide = Math.abs(y) < 40; // Near horizontal
-
-          return (
-            <div
-              key={index}
-              onMouseEnter={() => setHoveredMember(index)}
-              onMouseLeave={() => setHoveredMember(null)}
-              className="absolute transition-all duration-300"
-              style={{
-                top: `calc(50% + ${y}px)`,
-                left: `calc(50% + ${x}px)`,
-                transform: "translate(-50%, -50%)",
-              }}
-            >
-              {/* Larger Circle */}
-              <div
-                className={`w-32 h-32 sm:w-20 sm:h-20 rounded-full overflow-hidden shadow-md border-4 border-white transition-transform duration-300 ${
-                  hoveredMember === index ? "scale-100" : "scale-75"
-                }`}
-              >
-                <img
-                  src={member.image}
-                  alt={member.name}
-                  className="object-cover w-full h-full rounded-full"
-                />
-              </div>
-
-              {/* Hover Card */}
-              {hoveredMember === index && (
-                <div
-                  className={`absolute ${
-                    isTop
-                      ? "top-full mt-1"
-                      : isSide
-                      ? "top-full mt-1"
-                      : "bottom-full mb-1"
-                  } left-1/2 transform -translate-x-1/2 w-48 bg-white rounded-lg shadow-lg p-4 text-center`}
-                  style={{ zIndex: 10 }}
-                >
-                  <h2 className="mb-2 text-lg font-bold text-gray-800">
-                    {member.name}
-                  </h2>
-                  <div className="flex justify-center space-x-3">
-                    <a
-                      href={member.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xl text-blue-500 hover:text-blue-700"
-                    >
-                      <FaLinkedin />
-                    </a>
-                    <a
-                      href={member.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xl text-gray-800 hover:text-gray-600"
-                    >
-                      <FaGithub />
-                    </a>
-                    <a
-                      href={member.email}
-                      className="text-xl text-red-500 hover:text-red-700"
-                    >
-                      <FaEnvelope />
-                    </a>
+              <div className="absolute top-1/2 left-1/2 z-10 text-center transform -translate-x-1/2 -translate-y-1/2">
+                <div className="flex justify-center items-center w-48 h-48 bg-white rounded-full shadow-lg">
+                  <div className="p-6">
+                    <h2 className="text-2xl font-bold text-[#5DB996]">Our Team</h2>
                   </div>
                 </div>
-              )}
+              </div>
             </div>
-          );
-        })}
+          </div>
+        </div>
       </div>
     </div>
   );

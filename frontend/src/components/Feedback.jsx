@@ -1,6 +1,9 @@
 import React, { useState } from "react";
-import emailjs from "emailjs-com"; // Importing emailjs for sending emails
-import { FaEnvelope } from "react-icons/fa"; // Email icon for decoration
+import emailjs from "emailjs-com";
+import { FaLeaf, FaUser, FaEnvelope, FaCommentDots } from "react-icons/fa";
+import { motion } from "framer-motion";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const FeedbackForm = () => {
   const [formData, setFormData] = useState({
@@ -10,7 +13,6 @@ const FeedbackForm = () => {
   });
 
   const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState("");
 
   const handleChange = (e) => {
     setFormData({
@@ -22,93 +24,143 @@ const FeedbackForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
+
     emailjs
       .sendForm("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", e.target, "YOUR_USER_ID")
       .then(
         (result) => {
-          setStatus("Feedback sent successfully!");
-          setLoading(false);
+          toast.success("🌱 Feedback successfully submitted! We'll respond within 24 hours");
           setFormData({ name: "", email: "", message: "" });
         },
         (error) => {
-          setStatus("An error occurred. Please try again later.");
-          setLoading(false);
+          toast.error("⚠️ Failed to send feedback. Please try again later");
         }
-      );
+      )
+      .finally(() => setLoading(false));
   };
 
   return (
-    <div className="flex items-center justify-center p-8 bg-gray-100 rounded-lg shadow-md">
-      <div className="flex justify-between w-full max-w-4xl gap-6">
-        {/* Feedback Form */}
-        <div className="w-full md:w-1/2 p-6 bg-[#5DB996] rounded-lg shadow-lg">
-          <h2 className="text-3xl font-bold text-[#5DB996] mb-4 text-center">
-            Send Us Your Feedback
+    <section className="py-16 bg-gradient-to-b from-green-50 to-white" id="contact">
+      <div className="container px-4 mx-auto max-w-6xl">
+        <div className="mb-12 text-center">
+          <motion.div
+            initial={{ scale: 0 }}
+            whileInView={{ scale: 1 }}
+            className="inline-block p-4 mb-4 bg-green-100 rounded-full"
+          >
+            <FaLeaf className="text-4xl text-green-700" />
+          </motion.div>
+          <h2 className="mb-4 text-4xl font-bold font-playfair">
+            <span className="text-gray-800">Cultivate</span>{" "}
+            <span className="text-[#5DB996]">Connection</span>
           </h2>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="flex flex-col">
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                required
-                placeholder="Your Name"
-                className="border border-gray-300 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-[#118B50]"
-              />
-            </div>
-            <div className="flex flex-col">
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                placeholder="Your Email"
-                className="border border-gray-300 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-[#118B50]"
-              />
-            </div>
-            <div className="flex flex-col">
-              <textarea
-                id="message"
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
-                required
-                placeholder="Your Message"
-                className="border border-gray-300 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-[#118B50]"
-                rows="5"
-              ></textarea>
-            </div>
-
-            {status && (
-              <p className="font-semibold text-center text-[#5DB996]">{status}</p>
-            )}
-
-            <div className="text-center">
-              <button
-                type="submit"
-                className="w-full text-white bg-[#5DB996] p-3 rounded-lg hover:bg-[#0f7b42] transition duration-200"
-                disabled={loading}
-              >
-                {loading ? "Sending..." : "Send Feedback"}
-              </button>
-            </div>
-          </form>
+          <p className="text-lg text-gray-600">
+            Your insights help us grow better solutions for modern agriculture
+          </p>
         </div>
 
-        {/* Image Section */}
-        <div className="items-center justify-center hidden w-1/2 p-6 md:flex">
-          <img
-            src="/feedb.svg" 
-            alt="Feedback"
-            className="rounded-lg shadow-xl "
-          />
+        <div className="grid gap-10 items-center lg:grid-cols-2">
+          {/* Form Section */}
+          <motion.div
+            initial={{ x: -50, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            className="p-8 bg-white rounded-2xl border border-green-100 shadow-xl"
+          >
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="space-y-4">
+                {/* Name Input */}
+                <div className="relative">
+                  <FaUser className="absolute top-4 left-4 text-green-600" />
+                  <input
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    placeholder="Full Name"
+                    className="py-3 pr-4 pl-12 w-full rounded-lg border border-green-200 transition-all outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                    required
+                  />
+                </div>
+
+                {/* Email Input */}
+                <div className="relative">
+                  <FaEnvelope className="absolute top-4 left-4 text-green-600" />
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="Email Address"
+                    className="py-3 pr-4 pl-12 w-full rounded-lg border border-green-200 transition-all outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                    required
+                  />
+                </div>
+
+                {/* Message Input */}
+                <div className="relative">
+                  <FaCommentDots className="absolute top-4 left-4 text-green-600" />
+                  <textarea
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    placeholder="Your agricultural insights..."
+                    className="py-3 pr-4 pl-12 w-full h-40 rounded-lg border border-green-200 transition-all outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                    required
+                  />
+                  <span className="absolute bottom-2 right-3 text-sm text-gray-400">
+                    {formData.message.length}/500
+                  </span>
+                </div>
+              </div>
+
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                type="submit"
+                disabled={loading}
+                className="flex gap-2 justify-center items-center px-6 py-4 w-full font-medium text-white bg-green-700 rounded-lg transition-colors hover:bg-green-800"
+              >
+                {loading ? (
+                  <>
+                    <div className="w-5 h-5 rounded-full border-2 border-white animate-spin border-t-transparent" />
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    <FaLeaf className="text-lg" />
+                    Submit Feedback
+                  </>
+                )}
+              </motion.button>
+            </form>
+          </motion.div>
+
+          {/* Image/Info Section */}
+          <motion.div
+            initial={{ x: 50, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            className="hidden lg:block relative bg-green-700 rounded-2xl overflow-hidden min-h-[500px]"
+          >
+            <img
+              src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
+              alt="Farm Consultation"
+              className="object-cover w-full h-full opacity-90"
+            />
+            <div className="absolute right-0 bottom-0 left-0 p-8 bg-gradient-to-t from-green-900/90">
+              <h3 className="mb-3 text-2xl font-semibold text-white">
+                Why Your Feedback Matters
+              </h3>
+              <p className="leading-relaxed text-green-100">
+                At AgroTech, we believe in growing together. Your experiences shape our
+                agricultural solutions, helping us develop smarter tools for sustainable
+                farming and crop management.
+              </p>
+            </div>
+          </motion.div>
         </div>
       </div>
-    </div>
+      <ToastContainer position="bottom-right" autoClose={5000} />
+    </section>
   );
 };
 
