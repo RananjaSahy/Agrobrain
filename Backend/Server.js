@@ -1,38 +1,19 @@
 import express from "express";
-import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
 import bodyParser from "body-parser";
-
+import connectDB from "./config/mongoDB.js";
 dotenv.config();
 
 const app = express();
-const PORT = 5000;
-
-// MongoDB connection
-mongoose
-  .connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log("MongoDB connected..."))
-  .catch((err) => console.error("MongoDB connection error:", err));
-
-// Middleware
+const PORT = process.env.PORT || 5001;
 app.use(cors());
 app.use(bodyParser.json());
 
-// Mongoose schema and model
-const userSchema = new mongoose.Schema({
-  email: { type: String, required: true, unique: true },
-  name: { type: String, required: true },
-  location: { type: String, default: "unknown" },
-  fieldsOwned: { type: Number, default: 0 },
-  cropsPlanted: { type: Number, default: 0 },
-  totalDiseasesDetected: { type: Number, default: 0 },
-});
 
-const User = mongoose.model("User", userSchema);
+connectDB();
+
+
 
 // API route for login and location update
 app.post("/api/login", async (req, res) => {
