@@ -5,13 +5,11 @@ const Footer = () => {
   return (
     <footer className="bg-[#5DB996] text-white py-8 p-8">
       <div className="container flex flex-col justify-between items-center mx-auto space-y-4 md:flex-row md:space-y-0">
-        {/* Left Section */}
         <div className="text-center md:text-left">
-          <h3 className="mb-2 text-2xl font-bold">AgroTech</h3>
-          <p>&copy; 2025 Agrobrain. All Rights Reserved.</p>
+          <h3 className="mb-2 text-2xl font-bold">AgroBrain</h3>
+          <p>&copy; 2025 AgroBrain. All Rights Reserved.</p>
         </div>
 
-        {/* Social Media Links */}
         <div className="flex space-x-6">
           <a
             href="https://www.facebook.com"

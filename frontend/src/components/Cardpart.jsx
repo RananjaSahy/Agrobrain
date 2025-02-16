@@ -34,8 +34,8 @@ const WhatAreWeCapableOf = () => {
   }, [cards.length]);
 
   return (
-    <div className="flex flex-col items-center justify-center bg-gray-100 p-8" id="about">
-    <h2 className="text-5xl font-bold text-teal-600 mb-12 p-4 rounded-md text-center text-shadow">
+    <div className="flex flex-col justify-center items-center p-8 bg-gray-100" id="about">
+    <h2 className="p-4 mb-12 text-5xl font-bold text-center text-teal-600 rounded-md text-shadow">
       <span className="text-shadow-lg">What are we capable of:</span>
     </h2>
 
@@ -43,17 +43,17 @@ const WhatAreWeCapableOf = () => {
       {cards.map((card, index) => (
         <motion.div
           key={index}
-          className={`w-full sm:w-80 p-6 bg-white rounded-lg shadow-lg flex flex-col items-start transform transition-transform duration-500 ease-in-out`}
+          className={`flex flex-col items-start p-6 w-full bg-white rounded-lg shadow-lg transition-transform duration-500 ease-in-out transform sm:w-80`}
           animate={{
             scale: index === activeIndex ? 1 : 0.9,
           }}
         >
-          {/* Icon */}
-          <div className="text-teal-600 mb-4">{card.icon}</div>
+         
+          <div className="mb-4 text-teal-600">{card.icon}</div>
 
-          {/* Title */}
-          <h3 className="text-xl font-semibold mb-2 text-teal-700">{card.title}</h3>
-          <p className="text-sm md:text-base text-gray-600">{card.description}</p>
+  
+          <h3 className="mb-2 text-xl font-semibold text-teal-700">{card.title}</h3>
+          <p className="text-sm text-gray-600 md:text-base">{card.description}</p>
         </motion.div>
       ))}
     </div>

@@ -11,14 +11,6 @@ const teamMembers = [
     email: "mailto:progya56@gmail.com",
   },
   {
-    name: "Sujoy",
-    role: "Full Stack Developer",
-    image: "/i2.jpg",
-    linkedin: "https://www.linkedin.com/in/dutta-sujoy",
-    github: "https://github.com/dutta-sujoy",
-    email: "mailto:duttasujoy1415@gmail.com",
-  },
-  {
     name: "Debjyoti",
     role: "DevOps | Fullstack Developer | Cloud Engineer",
     image: "/i4.png",
@@ -26,6 +18,14 @@ const teamMembers = [
     github: "https://github.com/Debjyoti2004",
     email: "mailto:debjyotishit27@gmail.com",
 },
+  {
+    name: "Sujoy",
+    role: "Full Stack Developer",
+    image: "/i2.jpg",
+    linkedin: "https://www.linkedin.com/in/dutta-sujoy",
+    github: "https://github.com/dutta-sujoy",
+    email: "mailto:duttasujoy1415@gmail.com",
+  },
   {
     name: "Sagnik",
     role: "Frontend Developer",

@@ -7,6 +7,7 @@ import NewsPage from "./components/NewsPage";
 import Weather from "./components/Weather";
 import NotFound from "./components/NotFound";
 import Fields from "./components/fields";
+import CropRecommendations from "./components/CropRecommendations";
 import "./App.css";
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/weather" element={<Weather/>} />
           <Route path="/Fields" element={<Fields/>} />
+          <Route path="/CropRecommendations" element={<CropRecommendations/>} />
           <Route path="*" element={<NotFound/>} />
         </Routes>
       </BrowserRouter>

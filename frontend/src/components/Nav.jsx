@@ -45,7 +45,7 @@ const Navbar = () => {
               <Leaf className="w-6 h-6 text-white" strokeWidth={2} />
             </div>
             <span className="text-2xl font-bold tracking-tight text-gray-800 font-inter">
-              <span className="text-green-700">Agro</span>Tech
+              <span className="text-green-700">Agro</span>Brain
             </span>
           </div>
 

@@ -5,7 +5,7 @@ import { ChevronDown } from "react-feather";
 const HeroSection = () => {
   return (
     <div className="overflow-hidden relative w-full h-screen">
-      {/* Video Container - Make sure video file is in public folder */}
+      
       <div className="absolute inset-0 z-0">
         <video
           className="object-cover w-full h-full"
@@ -14,7 +14,7 @@ const HeroSection = () => {
           muted
           playsInline
           preload="auto"
-          poster="/video-poster.jpg" // Add a fallback image
+          poster="/video-poster.jpg" 
         >
           <source src="./../public/agrobrain.mp4" type="video/mp4" />
           <source src="./../public/agrobrain.mp4" type="video/webm" />
@@ -22,10 +22,10 @@ const HeroSection = () => {
         </video>
       </div>
 
-      {/* Content Overlay */}
+   
       <div className="flex relative z-10 flex-col justify-center items-center h-full bg-black/25">
         
-        {/* Animated Scroll Indicator */}
+      
         <motion.div
           className="absolute bottom-8 left-1/2 -translate-x-1/2 cursor-pointer"
           initial={{ opacity: 0, y: 20 }}

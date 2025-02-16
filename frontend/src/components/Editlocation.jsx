@@ -13,7 +13,6 @@ const EditLocation = ({ onLocationUpdate }) => {
     setError("");
 
     try {
-      // First verify if the city exists in OpenWeatherMap
       const apiKey = "82e7c90c7c53900a524412184efb2c8f";
       const weatherResponse = await fetch(
         `https://api.openweathermap.org/data/2.5/weather?q=${newLocation}&appid=${apiKey}`
@@ -24,12 +23,11 @@ const EditLocation = ({ onLocationUpdate }) => {
       }
 
       const weatherData = await weatherResponse.json();
-      const validatedCityName = weatherData.name; // Use the official city name from API
+      const validatedCityName = weatherData.name; 
 
-      // Store in localStorage
+
       localStorage.setItem("user_location", validatedCityName);
       
-      // Update the UI
       onLocationUpdate(validatedCityName);
       setNewLocation("");
       

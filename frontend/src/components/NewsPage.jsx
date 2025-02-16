@@ -3,8 +3,8 @@ import axios from "axios";
 import image from "../assets/logo.png";
 import { useNavigate } from "react-router-dom";
 import LoadingComponent from "./Loding";
-// News API Key and Endpoint
-const API_KEY = "53c8d29069084e49af47d657d3c57daa"; // Use your own API key
+
+const API_KEY = "53c8d29069084e49af47d657d3c57daa"; 
 const API_URL = "https://newsapi.org/v2/everything";
 
 const NewsPage = () => {
@@ -13,13 +13,13 @@ const NewsPage = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   useEffect(() => {
-    // Fetch news articles on component mount
+   
     const fetchNews = async () => {
       try {
         const response = await axios.get(API_URL, {
           params: {
-            q: "technology", // Query parameter for news topic
-            apiKey: API_KEY, // Pass your API key
+            q: "technology", 
+            apiKey: API_KEY, 
           },
         });
         setNewsArticles(response.data.articles);
@@ -43,30 +43,30 @@ const NewsPage = () => {
 
   return (
     <div>
-  <nav className="fixed top-0 left-0 right-0 z-50 bg-white bg-opacity-90 backdrop-blur shadow-md">
-  <div className="flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8">
-    {/* Logo Section */}
+  <nav className="fixed top-0 right-0 left-0 z-50 bg-white bg-opacity-90 shadow-md backdrop-blur">
+  <div className="flex justify-between items-center px-4 h-16 sm:px-6 lg:px-8">
+
     <div className="flex-shrink-0">
       <a onClick={() => navigate("/")} className="cursor-pointer">
-        <img src={image} alt="Logo" className="h-20 w-auto" />
+        <img src={image} alt="Logo" className="w-auto h-20" />
       </a>
     </div>
 
-    {/* Mobile 'Go Back' Button */}
+
     <div className="sm:hidden">
       <button
         onClick={() => navigate("/")}
-        className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition-all duration-200"
+        className="px-4 py-2 text-white bg-red-500 rounded-md transition-all duration-200 hover:bg-red-600"
       >
         Go Back
       </button>
     </div>
 
-    {/* Desktop 'Go Back' Button */}
-    <div className="hidden sm:flex items-center">
+
+    <div className="hidden items-center sm:flex">
       <button
         onClick={() => navigate("/")}
-        className="px-6 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition-all duration-200"
+        className="px-6 py-2 text-white bg-red-500 rounded-md transition-all duration-200 hover:bg-red-600"
       >
         Go Back
       </button>
@@ -77,7 +77,7 @@ const NewsPage = () => {
     <br />
     <br />
     <br />
-    <h1 class="text-4xl font-bold text-center text-teal-600 mb-6">Latest News</h1>
+    <h1 class="mb-6 text-4xl font-bold text-center text-teal-600">Latest News</h1>
       <div className="news-container">
         {newsArticles.map((article, index) => (
           <div className="news-card" key={index}>

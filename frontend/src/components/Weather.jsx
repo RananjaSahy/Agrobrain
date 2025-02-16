@@ -12,7 +12,7 @@ const Weather = () => {
   const [error, setError] = useState(null);
   const apiKey = "82e7c90c7c53900a524412184efb2c8f";
 
-  // Replace the fetchWeatherData function with this new one
+ 
   const fetchWeatherByCity = async (cityName) => {
     try {
       setLoading(true);
@@ -43,9 +43,8 @@ const Weather = () => {
     }
   };
 
-  // Replace the useEffect with this new one
+ 
   useEffect(() => {
-    // Get the saved location from localStorage
     const savedLocation = localStorage.getItem('user_location');
     if (savedLocation) {
       setCity(savedLocation);
@@ -85,7 +84,7 @@ const Weather = () => {
         initial="hidden"
         animate="visible"
       >
-        {/* Header Section */}
+
         <motion.div variants={itemVariants} className="mb-8">
           <h1 className="text-3xl font-bold text-gray-800">
             Agricultural Weather Dashboard
@@ -106,13 +105,13 @@ const Weather = () => {
           </div>
         ) : (
           <>
-            {/* Current Weather Card */}
+
             <motion.div 
               variants={itemVariants}
               className="p-6 mb-8 bg-white rounded-2xl shadow-lg"
             >
               <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-                {/* Main Weather Info */}
+
                 <div className="space-y-4">
                   <div className="flex gap-4 items-center">
                     {weatherData && getWeatherIcon(weatherData.weather[0].main)}
@@ -130,7 +129,7 @@ const Weather = () => {
                   </p>
                 </div>
 
-                {/* Weather Stats Grid */}
+
                 <div className="grid grid-cols-2 gap-4">
                   <div className="flex gap-3 items-center p-4 bg-green-50 rounded-xl">
                     <TbDropletFilled className="text-2xl text-green-600" />
@@ -148,7 +147,7 @@ const Weather = () => {
                   </div>
                 </div>
 
-                {/* Additional Info */}
+      
                 <div className="space-y-4">
                   <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
                     <span className="text-gray-600">Feels Like</span>
@@ -164,7 +163,7 @@ const Weather = () => {
               </div>
             </motion.div>
 
-            {/* Forecast Section */}
+    
             <motion.div variants={itemVariants} className="mb-8">
               <h2 className="mb-4 text-xl font-bold text-gray-800">7-Day Forecast</h2>
               <div className="flex overflow-x-auto gap-4 pb-4">
@@ -189,7 +188,7 @@ const Weather = () => {
               </div>
             </motion.div>
 
-            {/* Agricultural Insights */}
+  
             <motion.div 
               variants={itemVariants}
               className="grid grid-cols-1 gap-6 md:grid-cols-2"

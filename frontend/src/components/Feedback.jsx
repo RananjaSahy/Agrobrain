@@ -60,7 +60,7 @@ const FeedbackForm = () => {
         </div>
 
         <div className="grid gap-10 items-center lg:grid-cols-2">
-          {/* Form Section */}
+     
           <motion.div
             initial={{ x: -50, opacity: 0 }}
             whileInView={{ x: 0, opacity: 1 }}
@@ -68,7 +68,7 @@ const FeedbackForm = () => {
           >
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-4">
-                {/* Name Input */}
+               
                 <div className="relative">
                   <FaUser className="absolute top-4 left-4 text-green-600" />
                   <input
@@ -82,7 +82,7 @@ const FeedbackForm = () => {
                   />
                 </div>
 
-                {/* Email Input */}
+               
                 <div className="relative">
                   <FaEnvelope className="absolute top-4 left-4 text-green-600" />
                   <input
@@ -96,7 +96,7 @@ const FeedbackForm = () => {
                   />
                 </div>
 
-                {/* Message Input */}
+         
                 <div className="relative">
                   <FaCommentDots className="absolute top-4 left-4 text-green-600" />
                   <textarea
@@ -135,7 +135,7 @@ const FeedbackForm = () => {
             </form>
           </motion.div>
 
-          {/* Image/Info Section */}
+          
           <motion.div
             initial={{ x: 50, opacity: 0 }}
             whileInView={{ x: 0, opacity: 1 }}

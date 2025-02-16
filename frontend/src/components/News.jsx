@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { FaArrowRight, FaLeaf } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
-import { Skeleton } from "@mui/material"; // Optional: Install @mui/material for better skeletons
+import { Skeleton } from "@mui/material"; 
 
 const News = () => {
   const [news, setNews] = useState([]);
@@ -30,7 +30,7 @@ const News = () => {
     fetchNews();
   }, []);
 
-  // Animation variants
+
   const containerVariants = {
     hidden: { opacity: 0 },
     show: {
@@ -103,7 +103,7 @@ const News = () => {
                         alt={article.title}
                         className="object-cover w-full h-full transition-transform duration-500 hover:scale-105"
                         onError={(e) => {
-                          e.target.src = '/fallback-agriculture-image.jpg'; // Add fallback image
+                          e.target.src = '/fallback-agriculture-image.jpg';
                         }}
                       />
                     </div>
