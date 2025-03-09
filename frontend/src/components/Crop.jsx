@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 //api_8fc31148-9354-46f1-a147-82c186bd6fce
 import axios from "axios";
 import { ArrowLeft, Crop } from "react-feather";
@@ -12,6 +12,7 @@ const states = [
   
   const seasons = ["Kharif     ", "Whole Year ", "Autumn     ", "Rabi       ", "Summer     ", "Winter     "];
 const CropRecommendation = () => {
+
   const [formData, setFormData] = useState({
     state: "Odisha",
     district: "Cuttack",
@@ -54,7 +55,36 @@ const CropRecommendation = () => {
     }
     setLoading(false);
   };
+  const [images, setImages] = useState({});
 
+  useEffect(() => {
+    const fetchImages = async () => {
+      const fetchedImages = {}; 
+
+      for (const crop of recommendations) {
+        try {
+          const response = await fetch(
+            `https://api.unsplash.com/search/photos?page=2&query=${crop}&client_id=mFG31wnhGo0nAcunuKOPzQ1DFlO_vplI6jgB5XDUseE&per_page=1`
+          );
+          const data = await response.json();
+
+          if (data.results.length > 0) {
+            fetchedImages[crop] = data.results[0].urls.regular;
+          } else {
+            fetchedImages[crop] =
+              "https://via.placeholder.com/150?text=No+Image";
+          }
+        } catch (error) {
+          console.error("Error fetching image:", error);
+          fetchedImages[crop] =
+            "https://via.placeholder.com/150?text=Error+Loading";
+        }
+      }
+      setImages(fetchedImages);
+    };
+
+    fetchImages();
+  }, [recommendations]);
     return (
        <>
             <nav className="bg-green-100 shadow-md w-full flex items-center justify-between p-4">
@@ -70,9 +100,16 @@ const CropRecommendation = () => {
           <span>Go Back</span>
         </button>
                 </nav>
-                <div className="flex flex-row items-start justify-center min-h-screen bg-gray-300 px-6 gap-10">
-  {/* Form */}
-  <form onSubmit={handleSubmit} className="space-y-4 bg-white p-4 shadow-md rounded-md w-1/3 mt-10">
+                <div className="flex flex-row items-start justify-center min-h-screen bg-gray-300 px-6 gap-6">
+  {/* Form Section */}
+  <div className="flex flex-col space-y-6 w-2/5">
+    {/* Form for State, District, and Season */}
+    <form
+      onSubmit={handleSubmit}
+      className="space-y-4 bg-white p-4 shadow-md rounded-md w-full mt-5"
+    >
+      <h2 className="text-xl font-bold text-center">Location Details</h2>
+
       <label className="block">
         State:
         <select
@@ -100,9 +137,9 @@ const CropRecommendation = () => {
           disabled={!formData.state}
         >
           <option value="">Select District</option>
-          {dist.map((state) => (
-            <option key={state} value={state}>
-              {state}
+          {dist.map((district) => (
+            <option key={district} value={district}>
+              {district}
             </option>
           ))}
         </select>
@@ -133,31 +170,61 @@ const CropRecommendation = () => {
       </button>
     </form>
 
-  {/* Display Recommendations */}
+    {/* Form for Soil and Climate Parameters */}
+    <form
+      onSubmit={handleSubmit}
+      className="space-y-4 bg-white p-4 shadow-md rounded-md w-full mb-10"
+    >
+      <h2 className="text-xl font-bold text-center">Soil & Climate</h2>
 
-  {recommendations.length > 0 && (
-  <div className="w-2/3 p-4  rounded-md mt-10">
-    <h3 className="text-xl font-semibold mb-3">Recommended Crops:</h3>
-    <div className="grid grid-cols-2 gap-4">
-      {recommendations.map((crop) => {
-        const cropImageUrl = `https://api.crop.photo/crop?url=https://source.unsplash.com/200x200/?${crop}&width=200&height=200&api_key=api_8fc31148-9354-46f1-a147-82c186bd6fce`;
-
-        return (
-          <div key={crop} className="border p-3 rounded-md shadow-md text-center">
-            <img
-              src={cropImageUrl}
-              alt={crop}
-              className="w-full h-32 object-cover rounded-md"
+      {["N", "P", "K", "temperature", "humidity", "ph", "rainfall"].map(
+        (param) => (
+          <label key={param} className="block">
+            {param.charAt(0).toUpperCase() + param.slice(1)}:
+            <input
+              type="number"
+              name={param}
+              value={formData[param]}
+              onChange={handleChange}
+              className="w-full p-2 border rounded-md"
             />
-            <p className="text-lg font-bold mt-2 capitalize">{crop}</p>
-          </div>
-        );
-      })}
+          </label>
+        )
+      )}
+
+      <button
+        type="submit"
+        className="bg-green-600 text-white py-2 px-4 rounded-md w-full hover:bg-green-700"
+      >
+        {loading ? "Loading..." : "Get Recommendation"}
+      </button>
+    </form>
+  </div>
+
+  {/* Display Recommendations */}
+  {recommendations.length > 0 && (
+  <div className="w-3/5 p-4 rounded-md mt-10 lg:w-1/2 min-h-[500px]">
+    <h3 className="text-xl font-semibold mb-3">Recommended Crops:</h3>
+    <div className="grid grid-cols-1 gap-5">
+      {recommendations.map((crop) => (
+        <div
+          key={crop}
+          className="border p-3 rounded-md shadow-md text-center"
+        >
+          <img
+            src={images[crop] || "https://via.placeholder.com/150?text=Loading"}
+            alt={crop}
+            className="w-full h-40 object-cover rounded-md"
+          />
+          <p className="text-lg font-bold mt-2 capitalize">{crop}</p>
+        </div>
+      ))}
     </div>
   </div>
 )}
 
 </div>
+
 
             </>
   );

@@ -130,7 +130,7 @@ const DiseasePredictor = () => {
     <span>Go Back</span>
   </button>
           </nav>
-          <div className="flex flex-col items-center justify-center min-h-screen bg-gray-300 px-6">
+          <div className="flex gap-5 items-center justify-center min-h-screen bg-gray-300 px-6">
 
 
       <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-md text-center mt-5">
