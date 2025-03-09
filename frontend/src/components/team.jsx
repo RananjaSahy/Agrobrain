@@ -4,7 +4,7 @@ import { FaLinkedin, FaGithub, FaEnvelope } from "react-icons/fa";
 const teamMembers = [
   {
     name: "Progya",
-    role: "Software Engineer",
+    role: "Full Stack Developer",
     image: "/i1.jpg",
     linkedin: "https://www.linkedin.com/in/progya-bhattacharjee-427149298",
     github: "https://github.com/ProgyaBhattachrjee",
@@ -20,7 +20,7 @@ const teamMembers = [
 },
   {
     name: "Sujoy",
-    role: "Full Stack Developer",
+    role: "ML engineer",
     image: "/i2.jpg",
     linkedin: "https://www.linkedin.com/in/dutta-sujoy",
     github: "https://github.com/dutta-sujoy",
@@ -28,10 +28,10 @@ const teamMembers = [
   },
   {
     name: "Sagnik",
-    role: "Frontend Developer",
+    role: "ML engineer",
     image: "/i3.jpg",
-    linkedin: "https://linkedin.com/in/bobbrown",
-    github: "https://www.linkedin.com/in/sagnik-mitra10",
+    linkedin: "https://www.linkedin.com/in/sagnik-mitra10",
+    github: "https://github.com/iamsagnik",
     email: "mailto:sagnikmitra008@gmail.com",
   },
 ];

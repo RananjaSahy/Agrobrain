@@ -9,6 +9,9 @@ import NotFound from "./components/NotFound";
 import Fields from "./components/fields";
 import CropRecommendations from "./components/CropRecommendations";
 import "./App.css";
+import Disease from "./components/Disease";
+import { Crop } from "lucide-react";
+import CropRecommendation from "./components/Crop";
 function App() {
   return (
     <Auth0Provider
@@ -29,7 +32,9 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/weather" element={<Weather/>} />
           <Route path="/Fields" element={<Fields/>} />
-          <Route path="/CropRecommendations" element={<CropRecommendations/>} />
+          <Route path="/CropRecommendations" element={<CropRecommendations />} />
+          <Route path="/services/disease-predictor" element={<Disease />} />
+          <Route path="/services/crop-recommendation" element={ <CropRecommendation/>} />
           <Route path="*" element={<NotFound/>} />
         </Routes>
       </BrowserRouter>
