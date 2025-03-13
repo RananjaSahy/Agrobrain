@@ -161,22 +161,7 @@ const CropRecommendation = () => {
           ))}
         </select>
       </label>
-
-      <button
-        type="submit"
-        className="bg-green-600 text-white py-2 px-4 rounded-md w-full hover:bg-green-700"
-      >
-        {loading ? "Loading..." : "Get Recommendation"}
-      </button>
-    </form>
-
-    {/* Form for Soil and Climate Parameters */}
-    <form
-      onSubmit={handleSubmit}
-      className="space-y-4 bg-white p-4 shadow-md rounded-md w-full mb-10"
-    >
-      <h2 className="text-xl font-bold text-center">Soil & Climate</h2>
-
+      
       {["N", "P", "K", "temperature", "humidity", "ph", "rainfall"].map(
         (param) => (
           <label key={param} className="block">
