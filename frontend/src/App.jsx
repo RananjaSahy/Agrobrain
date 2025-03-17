@@ -34,7 +34,7 @@ function App() {
           <Route path="/Fields" element={<Fields/>} />
           <Route path="/CropRecommendations" element={<CropRecommendations />} />
           <Route path="/services/disease-predictor" element={<Disease />} />
-          <Route path="/services/crop-recommendation" element={ <CropRecommendation/>} />
+          <Route path="/services/crop-recommendation" element={<CropRecommendation />} />
           <Route path="*" element={<NotFound/>} />
         </Routes>
       </BrowserRouter>

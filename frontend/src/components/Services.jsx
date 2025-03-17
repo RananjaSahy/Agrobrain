@@ -6,8 +6,8 @@ import { Leaf } from "lucide-react";
 const services = [
   { title: "Crop-recommendation", description: "Understand nutrient levels, pH, and soil health.", image: "/plant.jpg" },
   { title: "Disease Predictor", description: "Yield predictions and disease prevention using AI.", image: "/glass.jpg" },
-  { title: "Agriculture Insights", description: "AI-driven insights for decision-making.", image: "/field.jpg" },
-  { title: "Weather Forecasting", description: "Accurate weather predictions for farming.", image: "/sun.jpg" },
+  { title: "Fertilizer Insights", description: "AI-driven insights for decision-making.", image: "/field.jpg", link: "https://huggingface.co/spaces/Nimbus10/FRS" }, // External Link
+  { title: "Weather Forecasting", description: "Accurate weather predictions for farming.", image: "/sun.jpg", link: "http://cropsphere.onrender.com/" }, // External Link
 ];
 
 const cardVariants = {
@@ -46,7 +46,13 @@ const Services = () => {
               viewport={{ once: true, margin: "-50px" }}
               variants={cardVariants}
               className="relative group cursor-pointer"
-              onClick={() => navigate(`/services/${service.title.replace(/\s+/g, "-").toLowerCase()}`)} // Navigate on click
+              onClick={() => {
+                if (service.link) {
+                  window.open(service.link, "_blank"); // Open external links in a new tab
+                } else {
+                  navigate(`/services/${service.title.replace(/\s+/g, "-").toLowerCase()}`); // Navigate internally for other services
+                }
+              }}
             >
               <div className="overflow-hidden bg-white rounded-xl border-2 border-transparent shadow-lg transition-all duration-300 hover:shadow-xl hover:border-emerald-500">
                 <motion.div whileHover={{ scale: 1.03 }} className="overflow-hidden relative h-48">
