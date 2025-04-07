@@ -26,7 +26,6 @@ export default function Sidebar() {
     { name: "Crop Recommendations", route: "/CropRecommendations", icon: <FiActivity /> },
     { name: "Crop Diseases Detection", route: "/diseases", icon: <FiAlertCircle /> },
     { name: "Fertilizer Recommendations", route: "/fertilizers", icon: <FiDroplet /> },
-    { name: "Market", route: "/market", icon: <FiDollarSign /> },
   ];
 
   const sidebarVariants = {
@@ -68,9 +67,9 @@ export default function Sidebar() {
      
       <motion.div
         variants={itemVariants}
-        className="flex gap-4 items-center p-4 rounded-lg bg-white/10"
+        className="flex items-center gap-4 p-4 rounded-lg bg-white/10"
       >
-        <div className="flex justify-center items-center w-12 h-12 bg-green-500 rounded-lg">
+        <div className="flex items-center justify-center w-12 h-12 bg-green-500 rounded-lg">
           {user?.picture ? (
             <img src={user.picture} alt="profile" className="rounded-lg" />
           ) : (
@@ -117,7 +116,7 @@ export default function Sidebar() {
         variants={itemVariants}
         whileHover={{ x: 4 }}
         onClick={() => logout()}
-        className="flex gap-3 items-center p-3 mt-auto font-medium text-red-400 rounded-lg transition-all duration-200 hover:bg-red-500/10"
+        className="flex items-center gap-3 p-3 mt-auto font-medium text-red-400 transition-all duration-200 rounded-lg hover:bg-red-500/10"
       >
         <FiLogOut className="text-xl" />
         Logout

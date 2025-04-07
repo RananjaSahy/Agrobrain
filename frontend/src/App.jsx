@@ -8,6 +8,8 @@ import Weather from "./components/Weather";
 import NotFound from "./components/NotFound";
 import Fields from "./components/fields";
 import CropRecommendations from "./components/CropRecommendations";
+import FertilizerRecommendation from "./components/FertilizerRecommendation";
+import CropDiseaseDetection from "./components/CropDiseaseDetection";
 import "./App.css";
 import Disease from "./components/Disease";
 import { Crop } from "lucide-react";
@@ -33,7 +35,9 @@ function App() {
           <Route path="/weather" element={<Weather/>} />
           <Route path="/Fields" element={<Fields/>} />
           <Route path="/CropRecommendations" element={<CropRecommendations />} />
+          <Route path="/fertilizers" element={<FertilizerRecommendation />} />
           <Route path="/services/disease-predictor" element={<Disease />} />
+          <Route path="/diseases" element={<CropDiseaseDetection />} />
           <Route path="/services/crop-recommendation" element={<CropRecommendation />} />
           <Route path="*" element={<NotFound/>} />
         </Routes>
