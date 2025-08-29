@@ -1,229 +1,174 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Sidebar from "./Sidebar";
-import { WiDaySunny, WiRain, WiCloudy, WiThermometer } from "react-icons/wi";
-import { TbDropletFilled, TbWind } from "react-icons/tb";
+import { 
+  WiDaySunny, WiCloudy, WiRain, WiShowers, WiThunderstorm, WiSnow, WiFog 
+} from "react-icons/wi";
+import { Thermometer, Droplets, Wind, Compass, Sunrise, Sunset, AlertTriangle, Droplet } from "lucide-react";
+import { format } from 'date-fns';
+
+const getWeatherIcon = (iconCode, size = "text-5xl") => {
+  const code = iconCode.slice(0, 2);
+  const icons = {
+    "01": <WiDaySunny className={`text-yellow-500 ${size}`} />,
+    "02": <WiCloudy className={`text-gray-500 ${size}`} />,
+    "03": <WiCloudy className={`text-gray-500 ${size}`} />,
+    "04": <WiCloudy className={`text-gray-500 ${size}`} />,
+    "09": <WiShowers className={`text-blue-500 ${size}`} />,
+    "10": <WiRain className={`text-blue-500 ${size}`} />,
+    "11": <WiThunderstorm className={`text-purple-500 ${size}`} />,
+    "13": <WiSnow className={`text-cyan-500 ${size}`} />,
+    "50": <WiFog className={`text-gray-400 ${size}`} />,
+  };
+  return icons[code] || <WiDaySunny className={`text-yellow-500 ${size}`} />;
+};
 
 const Weather = () => {
-  const [city, setCity] = useState("Fetching location...");
+  const [city, setCity] = useState("No Location Set");
   const [weatherData, setWeatherData] = useState(null);
   const [forecastData, setForecastData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const apiKey = "82e7c90c7c53900a524412184efb2c8f";
+  
+  const apiKey = import.meta.env.VITE_OPENWEATHER_API_KEY;
 
- 
-  const fetchWeatherByCity = async (cityName) => {
-    try {
+  useEffect(() => {
+    const fetchWeather = async (cityName) => {
       setLoading(true);
       setError(null);
-      
-      const [weatherResponse, forecastResponse] = await Promise.all([
-        fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}`),
-        fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${apiKey}`)
-      ]);
+      try {
+        const [weatherRes, forecastRes] = await Promise.all([
+          fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=metric`),
+          fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${apiKey}&units=metric`)
+        ]);
 
-      if (!weatherResponse.ok || !forecastResponse.ok) {
-        throw new Error('Failed to fetch weather data');
+        if (!weatherRes.ok || !forecastRes.ok) throw new Error('Failed to fetch weather data.');
+        
+        const weather = await weatherRes.json();
+        const forecast = await forecastRes.json();
+        
+        setWeatherData(weather);
+        const dailyForecast = forecast.list.filter((reading, index, arr) =>
+          index === 0 || new Date(reading.dt_txt).getDate() !== new Date(arr[index - 1].dt_txt).getDate()
+        ).slice(0, 7);
+        setForecastData(dailyForecast);
+        setCity(weather.name);
+
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
       }
-
-      const [weatherJson, forecastJson] = await Promise.all([
-        weatherResponse.json(),
-        forecastResponse.json()
-      ]);
-
-      setWeatherData(weatherJson);
-      setForecastData(forecastJson.list.slice(0, 7));
-      setCity(weatherJson.name);
-    } catch (error) {
-      setError("Could not fetch weather data for this city");
-      setCity("Location unavailable");
-    } finally {
-      setLoading(false);
-    }
-  };
-
- 
-  useEffect(() => {
+    };
+    
     const savedLocation = localStorage.getItem('user_location');
     if (savedLocation) {
-      setCity(savedLocation);
-      fetchWeatherByCity(savedLocation);
+        fetchWeather(savedLocation);
     } else {
-      setError("No location set");
-      setLoading(false);
+        setLoading(false);
+        setError("Location not found in local storage. Please set it on the dashboard.");
+        setCity("Unknown Location");
     }
-  }, []);
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
-  };
-
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: { y: 0, opacity: 1 }
-  };
-
-  const getWeatherIcon = (condition) => {
-    const icons = {
-      Clear: <WiDaySunny className="text-4xl text-yellow-500" />,
-      Clouds: <WiCloudy className="text-4xl text-gray-500" />,
-      Rain: <WiRain className="text-4xl text-blue-500" />,
-    };
-    return icons[condition] || <WiDaySunny className="text-4xl text-yellow-500" />;
-  };
+  }, [apiKey]);
+  
+  const StatCard = ({ Icon, title, value, color }) => (
+    <div className="flex gap-4 items-center p-4 bg-gray-50 rounded-xl">
+        <div className={`p-2 rounded-lg bg-${color}-100`}>
+            <Icon className={`w-6 h-6 text-${color}-600`} />
+        </div>
+        <div>
+            <p className="text-sm text-gray-500">{title}</p>
+            <p className="text-lg font-bold text-gray-800">{value}</p>
+        </div>
+    </div>
+  );
 
   return (
     <div className="flex min-h-screen bg-gray-50">
       <Sidebar />
       
-      <motion.div 
-        className="overflow-y-auto flex-grow p-8 ml-72"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-      >
-
-        <motion.div variants={itemVariants} className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-800">
-            Agricultural Weather Dashboard
-          </h1>
-          <p className="mt-2 text-gray-600">
-            {error ? "Error fetching data" : `Real-time weather insights for ${city}`}
-          </p>
-        </motion.div>
-
-        {loading ? (
-          <div className="flex justify-center items-center h-64">
-            <div className="text-gray-600 animate-pulse">Loading weather data...</div>
-          </div>
-        ) : error ? (
-          <div className="p-6 bg-red-50 rounded-2xl shadow-lg">
-            <h2 className="font-semibold text-red-600">Error: {error}</h2>
-            <p className="mt-2 text-gray-600">Please try refreshing the page or check your location settings.</p>
-          </div>
-        ) : (
-          <>
-
+      <main className="flex-grow p-6 ml-0 md:p-8 md:ml-64">
+        <div className="mx-auto max-w-7xl">
             <motion.div 
-              variants={itemVariants}
-              className="p-6 mb-8 bg-white rounded-2xl shadow-lg"
+                className="mb-8"
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
             >
-              <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-
-                <div className="space-y-4">
-                  <div className="flex gap-4 items-center">
-                    {weatherData && getWeatherIcon(weatherData.weather[0].main)}
-                    <div>
-                      <h2 className="text-2xl font-bold text-gray-800">
-                        {(weatherData.main.temp - 273.15).toFixed(1)}°C
-                      </h2>
-                      <p className="text-gray-600 capitalize">
-                        {weatherData.weather[0].description}
-                      </p>
-                    </div>
-                  </div>
-                  <p className="text-lg font-medium text-gray-700">
-                    {city}
-                  </p>
-                </div>
-
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="flex gap-3 items-center p-4 bg-green-50 rounded-xl">
-                    <TbDropletFilled className="text-2xl text-green-600" />
-                    <div>
-                      <p className="text-sm text-gray-600">Humidity</p>
-                      <p className="font-semibold">{weatherData.main.humidity}%</p>
-                    </div>
-                  </div>
-                  <div className="flex gap-3 items-center p-4 bg-blue-50 rounded-xl">
-                    <TbWind className="text-2xl text-blue-600" />
-                    <div>
-                      <p className="text-sm text-gray-600">Wind Speed</p>
-                      <p className="font-semibold">{weatherData.wind.speed} km/h</p>
-                    </div>
-                  </div>
-                </div>
-
-      
-                <div className="space-y-4">
-                  <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                    <span className="text-gray-600">Feels Like</span>
-                    <span className="font-semibold">
-                      {(weatherData.main.feels_like - 273.15).toFixed(1)}°C
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                    <span className="text-gray-600">Pressure</span>
-                    <span className="font-semibold">{weatherData.main.pressure} hPa</span>
-                  </div>
-                </div>
-              </div>
+                <h1 className="text-3xl font-bold text-gray-800">Agricultural Weather Dashboard</h1>
+                <p className="mt-2 text-gray-600">Real-time weather insights for <span className="font-semibold text-green-600">{city}</span></p>
             </motion.div>
 
-    
-            <motion.div variants={itemVariants} className="mb-8">
-              <h2 className="mb-4 text-xl font-bold text-gray-800">7-Day Forecast</h2>
-              <div className="flex overflow-x-auto gap-4 pb-4">
-                {forecastData.map((day, index) => (
-                  <motion.div 
-                    key={index}
-                    whileHover={{ scale: 1.05 }}
-                    className="min-w-[150px] bg-white rounded-xl shadow-md p-4 flex flex-col items-center"
-                  >
-                    <p className="mb-2 text-sm font-medium text-gray-600">
-                      {new Date(day.dt_txt).toLocaleDateString("en-US", { weekday: "short" })}
-                    </p>
-                    {getWeatherIcon(day.weather[0].main)}
-                    <p className="mt-2 text-lg font-semibold">
-                      {(day.main.temp - 273.15).toFixed(1)}°C
-                    </p>
-                    <p className="text-sm text-gray-600 capitalize">
-                      {day.weather[0].description}
-                    </p>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
+            {loading ? (
+                <div className="py-20 text-center">Loading weather data...</div>
+            ) : error ? (
+                <div className="p-6 text-center text-red-700 bg-red-50 rounded-xl">{error}</div>
+            ) : weatherData && (
+                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-8">
+                    <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+                        <div className="flex flex-col justify-center items-center p-6 text-center bg-white rounded-2xl border border-gray-200 shadow-lg lg:col-span-1">
+                            {getWeatherIcon(weatherData.weather[0].icon)}
+                            <p className="mt-2 text-6xl font-bold text-gray-800">{Math.round(weatherData.main.temp)}°C</p>
+                            <p className="text-lg text-gray-600 capitalize">{weatherData.weather[0].description}</p>
+                            <p className="mt-4 text-sm text-gray-500">
+                                Feels like {Math.round(weatherData.main.feels_like)}°C
+                            </p>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4 lg:col-span-2">
+                           <StatCard Icon={Droplets} title="Humidity" value={`${weatherData.main.humidity}%`} color="blue" />
+                           <StatCard Icon={Wind} title="Wind Speed" value={`${weatherData.wind.speed} km/h`} color="sky" />
+                           <StatCard Icon={Compass} title="Pressure" value={`${weatherData.main.pressure} hPa`} color="slate" />
+                           <StatCard Icon={Thermometer} title="High / Low" value={`${Math.round(weatherData.main.temp_max)}° / ${Math.round(weatherData.main.temp_min)}°`} color="orange" />
+                           <StatCard Icon={Sunrise} title="Sunrise" value={format(new Date(weatherData.sys.sunrise * 1000), 'p')} color="amber" />
+                           <StatCard Icon={Sunset} title="Sunset" value={format(new Date(weatherData.sys.sunset * 1000), 'p')} color="indigo" />
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h2 className="mb-4 text-2xl font-bold text-gray-800">7-Day Forecast</h2>
+                        <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-7">
+                            {forecastData.map((day, index) => (
+                                <motion.div 
+                                    key={index}
+                                    className="p-4 text-center bg-white rounded-xl border border-gray-200 shadow-md"
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: index * 0.05 }}
+                                >
+                                    <p className="font-semibold text-gray-700">{format(new Date(day.dt_txt), 'EEE')}</p>
+                                    <div className="my-2">{getWeatherIcon(day.weather[0].icon, 'text-4xl')}</div>
+                                    <p className="font-bold text-gray-800">{Math.round(day.main.temp_max)}°</p>
+                                    <p className="text-sm text-gray-500">{Math.round(day.main.temp_min)}°</p>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </div>
 
-  
-            <motion.div 
-              variants={itemVariants}
-              className="grid grid-cols-1 gap-6 md:grid-cols-2"
-            >
-              <div className="p-6 bg-white rounded-2xl shadow-lg">
-                <h3 className="mb-4 text-lg font-semibold text-green-700">Irrigation Schedule</h3>
-                <div className="flex gap-4 items-center">
-                  <div className="p-3 bg-green-100 rounded-full">
-                    <TbDropletFilled className="text-2xl text-green-600" />
-                  </div>
-                  <div>
-                    <p className="font-medium">Next irrigation recommended</p>
-                    <p className="text-gray-600">Wednesday, 3:00 PM</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="p-6 bg-white rounded-2xl shadow-lg">
-                <h3 className="mb-4 text-lg font-semibold text-red-700">Pest Forecast</h3>
-                <div className="flex gap-4 items-center">
-                  <div className="p-3 bg-red-100 rounded-full">
-                    <svg className="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
-                    </svg>
-                  </div>
-                  <div>
-                    <p className="font-medium">Low risk detected</p>
-                    <p className="text-gray-600">No immediate action needed</p>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          </>
-        )}
-      </motion.div>
+                     <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+                        <div className="p-6 bg-white rounded-2xl border border-gray-200 shadow-lg">
+                           <h3 className="mb-4 text-xl font-semibold text-gray-800">Irrigation Schedule</h3>
+                           <div className="flex gap-4 items-center">
+                              <div className="p-3 bg-blue-100 rounded-full"><Droplet className="w-6 h-6 text-blue-600" /></div>
+                              <div>
+                                 <p className="font-semibold text-gray-700">Next irrigation recommended</p>
+                                 <p className="text-gray-500">Wednesday, 3:00 PM</p>
+                              </div>
+                           </div>
+                        </div>
+                        <div className="p-6 bg-white rounded-2xl border border-gray-200 shadow-lg">
+                           <h3 className="mb-4 text-xl font-semibold text-gray-800">Pest Forecast</h3>
+                           <div className="flex gap-4 items-center">
+                              <div className="p-3 bg-red-100 rounded-full"><AlertTriangle className="w-6 h-6 text-red-600" /></div>
+                              <div>
+                                 <p className="font-semibold text-gray-700">Low risk detected</p>
+                                 <p className="text-gray-500">No immediate action needed</p>
+                              </div>
+                           </div>
+                        </div>
+                    </div>
+                </motion.div>
+            )}
+        </div>
+      </main>
     </div>
   );
 };

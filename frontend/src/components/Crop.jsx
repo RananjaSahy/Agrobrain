@@ -1,41 +1,71 @@
-import { useState,useEffect } from "react";
-//api_8fc31148-9354-46f1-a147-82c186bd6fce
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { ArrowLeft, Crop } from "react-feather";
-const states = [
- "Andaman and Nicobar Islands", "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chandigarh", "Chhattisgarh", "Dadra and Nagar Haveli", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jammu and Kashmir ", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Puducherry", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana ", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"
-  ];
-  
-  const dist = [
-   "NICOBARS", "NORTH AND MIDDLE ANDAMAN", "SOUTH ANDAMANS", "ANANTAPUR", "CHITTOOR", "EAST GODAVARI", "GUNTUR", "KADAPA", "KRISHNA", "KURNOOL", "PRAKASAM", "SPSR NELLORE", "SRIKAKULAM", "VISAKHAPATANAM", "VIZIANAGARAM", "WEST GODAVARI", "ANJAW", "CHANGLANG", "DIBANG VALLEY", "EAST KAMENG", "EAST SIANG", "KURUNG KUMEY", "LOHIT", "LONGDING", "LOWER SUBANSIRI", "PAPUM PARE", "TAWANG", "TIRAP", "UPPER SIANG", "UPPER SUBANSIRI", "WEST KAMENG", "WEST SIANG", "BAKSA", "BARPETA", "BONGAIGAON", "CACHAR", "CHIRANG", "DARRANG", "DHEMAJI", "DHUBRI", "DIBRUGARH", "DIMA HASAO", "GOALPARA", "GOLAGHAT", "HAILAKANDI", "JORHAT", "KAMRUP", "KAMRUP METRO", "KARBI ANGLONG", "KARIMGANJ", "KOKRAJHAR", "LAKHIMPUR", "MARIGAON", "NAGAON", "NALBARI", "SIVASAGAR", "SONITPUR", "TINSUKIA", "UDALGURI", "ARARIA", "ARWAL", "AURANGABAD", "BANKA", "BEGUSARAI", "BHAGALPUR", "BHOJPUR", "BUXAR", "DARBHANGA", "GAYA", "GOPALGANJ", "JAMUI", "JEHANABAD", "KAIMUR (BHABUA)", "KATIHAR", "KHAGARIA", "KISHANGANJ", "LAKHISARAI", "MADHEPURA", "MADHUBANI", "MUNGER", "MUZAFFARPUR", "NALANDA", "NAWADA", "PASHCHIM CHAMPARAN", "PATNA", "PURBI CHAMPARAN", "PURNIA", "ROHTAS", "SAHARSA", "SAMASTIPUR", "SARAN", "SHEIKHPURA", "SHEOHAR", "SITAMARHI", "SIWAN", "SUPAUL", "VAISHALI", "CHANDIGARH", "BALOD", "BALODA BAZAR", "BALRAMPUR", "BASTAR", "BEMETARA", "BIJAPUR", "BILASPUR", "DANTEWADA", "DHAMTARI", "DURG", "GARIYABAND", "JANJGIR-CHAMPA", "JASHPUR", "KABIRDHAM", "KANKER", "KONDAGAON", "KORBA", "KOREA", "MAHASAMUND", "MUNGELI", "NARAYANPUR", "RAIGARH", "RAIPUR", "RAJNANDGAON", "SUKMA", "SURAJPUR", "SURGUJA", "DADRA AND NAGAR HAVELI", "NORTH GOA", "SOUTH GOA", "AHMADABAD", "AMRELI", "ANAND", "BANAS KANTHA", "BHARUCH", "BHAVNAGAR", "DANG", "DOHAD", "GANDHINAGAR", "JAMNAGAR", "JUNAGADH", "KACHCHH", "KHEDA", "MAHESANA", "NARMADA", "NAVSARI", "PANCH MAHALS", "PATAN", "PORBANDAR", "RAJKOT", "SABAR KANTHA", "SURAT", "SURENDRANAGAR", "TAPI", "VADODARA", "VALSAD", "AMBALA", "BHIWANI", "FARIDABAD", "FATEHABAD", "GURGAON", "HISAR", "JHAJJAR", "JIND", "KAITHAL", "KARNAL", "KURUKSHETRA", "MAHENDRAGARH", "MEWAT", "PALWAL", "PANCHKULA", "PANIPAT", "REWARI", "ROHTAK", "SIRSA", "SONIPAT", "YAMUNANAGAR", "CHAMBA", "HAMIRPUR", "KANGRA", "KINNAUR", "KULLU", "LAHUL AND SPITI", "MANDI", "SHIMLA", "SIRMAUR", "SOLAN", "UNA", "ANANTNAG", "BADGAM", "BANDIPORA", "BARAMULLA", "DODA", "GANDERBAL", "JAMMU", "KATHUA", "KISHTWAR", "KULGAM", "POONCH", "PULWAMA", "RAJAURI", "REASI", "SAMBA", "SHOPIAN", "SRINAGAR", "UDHAMPUR", "CHATRA", "DEOGHAR", "DHANBAD", "DUMKA", "EAST SINGHBUM", "GARHWA", "GODDA", "GUMLA", "HAZARIBAGH", "JAMTARA", "LATEHAR", "LOHARDAGA", "PAKUR", "RAMGARH", "RANCHI", "SAHEBGANJ", "SARAIKELA KHARSAWAN", "SIMDEGA", "BAGALKOT", "BANGALORE RURAL", "BELGAUM", "BELLARY", "BENGALURU URBAN", "BIDAR", "CHAMARAJANAGAR", "CHIKBALLAPUR", "CHIKMAGALUR", "CHITRADURGA", "DAKSHIN KANNAD", "DAVANGERE", "DHARWAD", "GADAG", "GULBARGA", "HASSAN", "HAVERI", "KODAGU", "KOLAR", "KOPPAL", "MANDYA", "MYSORE", "RAICHUR", "RAMANAGARA", "SHIMOGA", "TUMKUR", "UDUPI", "UTTAR KANNAD", "YADGIR", "ALAPPUZHA", "ERNAKULAM", "IDUKKI", "KANNUR", "KASARAGOD", "KOLLAM", "KOTTAYAM", "KOZHIKODE", "MALAPPURAM", "PALAKKAD", "PATHANAMTHITTA", "THIRUVANANTHAPURAM", "THRISSUR", "WAYANAD", "ALIRAJPUR", "ANUPPUR", "ASHOKNAGAR", "BALAGHAT", "BARWANI", "BETUL", "BHIND", "BHOPAL", "BURHANPUR", "CHHATARPUR", "CHHINDWARA", "DAMOH", "DATIA", "DEWAS", "DHAR", "DINDORI", "GUNA", "GWALIOR", "HARDA", "HOSHANGABAD", "INDORE", "JABALPUR", "JHABUA", "KATNI", "KHANDWA", "KHARGONE", "MANDLA", "MANDSAUR", "MORENA", "NARSINGHPUR", "NEEMUCH", "PANNA", "RAISEN", "RAJGARH", "RATLAM", "REWA", "SAGAR", "SATNA", "SEHORE", "SEONI", "SHAHDOL", "SHAJAPUR", "SHEOPUR", "SHIVPURI", "SIDHI", "SINGRAULI", "TIKAMGARH", "UJJAIN", "UMARIA", "VIDISHA", "AHMEDNAGAR", "AKOLA", "AMRAVATI", "BEED", "BHANDARA", "BULDHANA", "CHANDRAPUR", "DHULE", "GADCHIROLI", "GONDIA", "HINGOLI", "JALGAON", "JALNA", "KOLHAPUR", "LATUR", "NAGPUR", "NANDED", "NANDURBAR", "NASHIK", "OSMANABAD", "PALGHAR", "PARBHANI", "PUNE", "RAIGAD", "RATNAGIRI", "SANGLI", "SATARA", "SINDHUDURG", "SOLAPUR", "THANE", "WARDHA", "WASHIM", "YAVATMAL", "BISHNUPUR", "CHANDEL", "CHURACHANDPUR", "IMPHAL EAST", "IMPHAL WEST", "SENAPATI", "TAMENGLONG", "THOUBAL", "UKHRUL", "EAST GARO HILLS", "EAST JAINTIA HILLS", "EAST KHASI HILLS", "NORTH GARO HILLS", "RI BHOI", "SOUTH GARO HILLS", "SOUTH WEST GARO HILLS", "SOUTH WEST KHASI HILLS", "WEST GARO HILLS", "WEST JAINTIA HILLS", "WEST KHASI HILLS", "AIZAWL", "CHAMPHAI", "KOLASIB", "LAWNGTLAI", "LUNGLEI", "MAMIT", "SAIHA", "SERCHHIP", "DIMAPUR", "KIPHIRE", "KOHIMA", "LONGLENG", "MOKOKCHUNG", "MON", "PEREN", "PHEK", "TUENSANG", "WOKHA", "ZUNHEBOTO", "ANUGUL", "BALANGIR", "BALESHWAR", "BARGARH", "BHADRAK", "BOUDH", "CUTTACK", "DEOGARH", "DHENKANAL", "GAJAPATI", "GANJAM", "JAGATSINGHAPUR", "JAJAPUR", "JHARSUGUDA", "KALAHANDI", "KANDHAMAL", "KENDRAPARA", "KENDUJHAR", "KHORDHA", "KORAPUT", "MALKANGIRI", "MAYURBHANJ", "NABARANGPUR", "NAYAGARH", "NUAPADA", "PURI", "RAYAGADA", "SAMBALPUR", "SONEPUR", "SUNDARGARH", "KARAIKAL", "MAHE", "PONDICHERRY", "YANAM", "AMRITSAR", "BARNALA", "BATHINDA", "FARIDKOT", "FATEHGARH SAHIB", "FAZILKA", "FIROZEPUR", "GURDASPUR", "HOSHIARPUR", "JALANDHAR", "KAPURTHALA", "LUDHIANA", "MANSA", "MOGA", "MUKTSAR", "NAWANSHAHR", "PATHANKOT", "PATIALA", "RUPNAGAR", "S.A.S NAGAR", "SANGRUR", "TARN TARAN", "AJMER", "ALWAR", "BANSWARA", "BARAN", "BARMER", "BHARATPUR", "BHILWARA", "BIKANER", "BUNDI", "CHITTORGARH", "CHURU", "DAUSA", "DHOLPUR", "DUNGARPUR", "GANGANAGAR", "HANUMANGARH", "JAIPUR", "JAISALMER", "JALORE", "JHALAWAR", "JHUNJHUNU", "JODHPUR", "KARAULI", "KOTA", "NAGAUR", "PALI", "PRATAPGARH", "RAJSAMAND", "SAWAI MADHOPUR", "SIKAR", "SIROHI", "TONK", "UDAIPUR", "EAST DISTRICT", "NORTH DISTRICT", "SOUTH DISTRICT", "WEST DISTRICT", "ARIYALUR", "COIMBATORE", "CUDDALORE", "DHARMAPURI", "DINDIGUL", "ERODE", "KANCHIPURAM", "KANNIYAKUMARI", "KARUR", "KRISHNAGIRI", "MADURAI", "NAGAPATTINAM", "NAMAKKAL", "PERAMBALUR", "PUDUKKOTTAI", "RAMANATHAPURAM", "SALEM", "SIVAGANGA", "THANJAVUR", "THE NILGIRIS", "THENI", "THIRUVALLUR", "THIRUVARUR", "TIRUCHIRAPPALLI", "TIRUNELVELI", "TIRUPPUR", "TIRUVANNAMALAI", "TUTICORIN", "VELLORE", "VILLUPURAM", "VIRUDHUNAGAR", "ADILABAD", "HYDERABAD", "KARIMNAGAR", "KHAMMAM", "MAHBUBNAGAR", "MEDAK", "NALGONDA", "NIZAMABAD", "RANGAREDDI", "WARANGAL", "DHALAI", "GOMATI", "KHOWAI", "NORTH TRIPURA", "SEPAHIJALA", "SOUTH TRIPURA", "UNAKOTI", "WEST TRIPURA", "AGRA", "ALIGARH", "ALLAHABAD", "AMBEDKAR NAGAR", "AMETHI", "AMROHA", "AURAIYA", "AZAMGARH", "BAGHPAT", "BAHRAICH", "BALLIA", "BANDA", "BARABANKI", "BAREILLY", "BASTI", "BIJNOR", "BUDAUN", "BULANDSHAHR", "CHANDAULI", "CHITRAKOOT", "DEORIA", "ETAH", "ETAWAH", "FAIZABAD", "FARRUKHABAD", "FATEHPUR", "FIROZABAD", "GAUTAM BUDDHA NAGAR", "GHAZIABAD", "GHAZIPUR", "GONDA", "GORAKHPUR", "HAPUR", "HARDOI", "HATHRAS", "JALAUN", "JAUNPUR", "JHANSI", "KANNAUJ", "KANPUR DEHAT", "KANPUR NAGAR", "KASGANJ", "KAUSHAMBI", "KHERI", "KUSHI NAGAR", "LALITPUR", "LUCKNOW", "MAHARAJGANJ", "MAHOBA", "MAINPURI", "MATHURA", "MAU", "MEERUT", "MIRZAPUR", "MORADABAD", "MUZAFFARNAGAR", "PILIBHIT", "RAE BARELI", "RAMPUR", "SAHARANPUR", "SAMBHAL", "SANT KABEER NAGAR", "SANT RAVIDAS NAGAR", "SHAHJAHANPUR", "SHAMLI", "SHRAVASTI", "SIDDHARTH NAGAR", "SITAPUR", "SONBHADRA", "SULTANPUR", "UNNAO", "VARANASI", "ALMORA", "BAGESHWAR", "CHAMOLI", "CHAMPAWAT", "DEHRADUN", "HARIDWAR", "NAINITAL", "PAURI GARHWAL", "PITHORAGARH", "RUDRA PRAYAG", "TEHRI GARHWAL", "UDAM SINGH NAGAR", "UTTAR KASHI", "24 PARAGANAS NORTH", "24 PARAGANAS SOUTH", "BANKURA", "BARDHAMAN", "BIRBHUM", "COOCHBEHAR", "DARJEELING", "DINAJPUR DAKSHIN", "DINAJPUR UTTAR", "HOOGHLY", "HOWRAH", "JALPAIGURI", "MALDAH", "MEDINIPUR EAST", "MEDINIPUR WEST", "MURSHIDABAD", "NADIA", "PURULIA"
-  ];
-  
-  const seasons = ["Kharif     ", "Whole Year ", "Autumn     ", "Rabi       ", "Summer     ", "Winter     "];
-const CropRecommendation = () => {
+import { motion, AnimatePresence } from "framer-motion";
+import { Leaf, ArrowLeft, ChevronDown, Loader } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
+const states = ["Odisha", "Andhra Pradesh", "Assam", "Bihar", "West Bengal"]; 
+const dist = ["NICOBARS", "ANANTAPUR", "BAKSA", "ARARIA", "BANKURA"]; 
+const seasons = ["Kharif", "Whole Year", "Autumn", "Rabi", "Summer", "Winter"];
+
+const InputField = ({ label, name, value, onChange }) => (
+  <div>
+    <label htmlFor={name} className="block mb-1 text-sm font-medium text-gray-600">{label}</label>
+    <input
+      type="number"
+      name={name}
+      id={name}
+      value={value}
+      onChange={onChange}
+      className="px-3 py-2 w-full bg-gray-50 rounded-md border border-gray-300 shadow-sm outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+    />
+  </div>
+);
+
+const SelectField = ({ label, name, value, onChange, options, disabled }) => (
+  <div>
+    <label htmlFor={name} className="block mb-1 text-sm font-medium text-gray-600">{label}</label>
+    <div className="relative">
+      <select
+        name={name}
+        id={name}
+        value={value}
+        onChange={onChange}
+        disabled={disabled}
+        className="px-3 py-2 w-full text-gray-700 bg-gray-50 rounded-md border border-gray-300 shadow-sm appearance-none outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 disabled:bg-gray-200"
+      >
+        <option value="">Select {label}</option>
+        {options.map((option) => (
+          <option key={option} value={option.trim()}>{option.trim()}</option>
+        ))}
+      </select>
+      <ChevronDown className="absolute right-3 top-1/2 w-5 h-5 text-gray-400 transform -translate-y-1/2 pointer-events-none" />
+    </div>
+  </div>
+);
+
+const CropCardSkeleton = () => (
+    <div className="overflow-hidden relative h-32 bg-gray-200 rounded-lg animate-pulse group"></div>
+);
+
+const CropRecommendation = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     state: "Odisha",
-    district: "Cuttack",
+    district: "",
     season: "Kharif",
-    area: 2.5,
-    N: 90,
-    P: 40,
-    K: 30,
-    temperature: 25,
-    humidity: 70,
-    ph: 6.5,
-    rainfall: 200,
+    N: "90",
+    P: "40",
+    K: "30",
+    temperature: "25",
+    humidity: "70",
+    ph: "6.5",
+    rainfall: "200",
   });
-
   const [recommendations, setRecommendations] = useState([]);
+  const [images, setImages] = useState({});
   const [loading, setLoading] = useState(false);
-
-  const cropImages = {
-    rice: "https://example.com/rice.jpg",
-    jute: "https://example.com/jute.jpg",
-    coffee: "https://example.com/coffee.jpg",
-    maize: "https://example.com/maize.jpg",
-  };
+  const [imageLoading, setImageLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -44,174 +74,129 @@ const CropRecommendation = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    setRecommendations([]); 
+    setImages({});
     try {
-      const response = await axios.post(
-        "https://sujoy0011-crop-recommendation.hf.space/predict",
-        formData
-      );
+      const response = await axios.post("https://sujoy0011-crop-recommendation.hf.space/predict", formData);
       setRecommendations(response.data.recommendations);
+      
+      const mockRecommendations = ["Rice", "Jute", "Coffee", "Maize"];
+      setRecommendations(mockRecommendations);
+
     } catch (error) {
       console.error("Error fetching recommendations:", error);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
-  const [images, setImages] = useState({});
 
   useEffect(() => {
-    const fetchImages = async () => {
-      const fetchedImages = {}; 
-
-      for (const crop of recommendations) {
-        try {
-          const response = await fetch(
-            `https://api.unsplash.com/search/photos?page=2&query=${crop}&client_id=mFG31wnhGo0nAcunuKOPzQ1DFlO_vplI6jgB5XDUseE&per_page=1`
-          );
-          const data = await response.json();
-
-          if (data.results.length > 0) {
-            fetchedImages[crop] = data.results[0].urls.regular;
-          } else {
-            fetchedImages[crop] =
-              "https://via.placeholder.com/150?text=No+Image";
+    if (recommendations.length > 0) {
+      const fetchImages = async () => {
+        setImageLoading(true);
+        const fetchedImages = {};
+        for (const crop of recommendations) {
+          try {
+            const response = await axios.get("https://api.unsplash.com/search/photos", {
+                params: { query: `${crop} plant field`, client_id: 'mFG31wnhGo0nAcunuKOPzQ1DFlO_vplI6jgB5XDUseE', per_page: 1 }
+            });
+            fetchedImages[crop] = data.results.length > 0 ? data.results[0].urls.regular : '/fallback-agriculture-image.jpg';
+          } catch (error) {
+            console.error(`Error fetching image for ${crop}:`, error);
+            fetchedImages[crop] = '/fallback-agriculture-image.jpg';
           }
-        } catch (error) {
-          console.error("Error fetching image:", error);
-          fetchedImages[crop] =
-            "https://via.placeholder.com/150?text=Error+Loading";
         }
-      }
-      setImages(fetchedImages);
-    };
-
-    fetchImages();
+        setImages(fetchedImages);
+        setImageLoading(false);
+      };
+      fetchImages();
+    }
   }, [recommendations]);
-    return (
-       <>
-            <nav className="bg-green-100 shadow-md w-full flex items-center justify-between p-4">
-        <div className="flex items-center space-x-2">
-          <Crop className="text-green-700 w-8 h-8" />
-          <h1 className="text-2xl font-bold text-green-700">Crop Recommendation</h1>
+
+  return (
+    <div className="min-h-screen bg-gray-100">
+      <header className="sticky top-0 z-50 border-b border-gray-200 backdrop-blur-sm bg-white/80">
+        <div className="container px-4 mx-auto sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-20">
+            <div className="flex items-center space-x-2">
+              <Leaf className="w-8 h-8 text-green-600" />
+              <span className="text-2xl font-bold text-gray-800">Crop Recommendation</span>
+            </div>
+            <button
+              onClick={() => navigate(-1)}
+              className="inline-flex items-center px-4 py-2 text-sm font-semibold text-white bg-green-600 rounded-full shadow-lg transition-all duration-300 hover:bg-green-700 hover:shadow-xl hover:scale-105"
+            >
+              <ArrowLeft className="mr-2 w-4 h-4" />
+              Go Back
+            </button>
+          </div>
         </div>
-        <button
-          onClick={() => window.history.back()}
-          className="flex items-center space-x-2 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md transition-all"
-        >
-          <ArrowLeft className="w-5 h-5" />
-          <span>Go Back</span>
-        </button>
-                </nav>
-                <div className="flex flex-row items-start justify-center min-h-screen bg-gray-300 px-6 gap-6">
-  {/* Form Section */}
-  <div className="flex flex-col space-y-6 w-2/5">
-    {/* Form for State, District, and Season */}
-    <form
-      onSubmit={handleSubmit}
-      className="space-y-4 bg-white p-4 shadow-md rounded-md w-full mt-5"
-    >
-      <h2 className="text-xl font-bold text-center">Location Details</h2>
+      </header>
 
-      <label className="block">
-        State:
-        <select
-          name="state"
-          value={formData.state}
-          onChange={handleChange}
-          className="w-full p-2 border rounded-md"
+      <main className="container px-4 py-12 mx-auto sm:px-6 lg:px-8">
+        <motion.div
+          className="grid grid-cols-1 gap-8 lg:grid-cols-3"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
         >
-          <option value="">Select State</option>
-          {states.map((state) => (
-            <option key={state} value={state}>
-              {state}
-            </option>
-          ))}
-        </select>
-      </label>
+          <div className="p-6 bg-white rounded-xl border border-gray-200 shadow-lg lg:col-span-1">
+            <h2 className="mb-6 text-xl font-bold text-gray-800">Location Details</h2>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <SelectField label="State" name="state" value={formData.state} onChange={handleChange} options={states} />
+              <SelectField label="District" name="district" value={formData.district} onChange={handleChange} options={dist} disabled={!formData.state} />
+              <SelectField label="Season" name="season" value={formData.season} onChange={handleChange} options={seasons} />
+              
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <InputField label="N (kg/ha)" name="N" value={formData.N} onChange={handleChange} />
+                <InputField label="P (kg/ha)" name="P" value={formData.P} onChange={handleChange} />
+                <InputField label="K (kg/ha)" name="K" value={formData.K} onChange={handleChange} />
+                <InputField label="pH" name="ph" value={formData.ph} onChange={handleChange} />
+              </div>
+              
+              <InputField label="Temperature (°C)" name="temperature" value={formData.temperature} onChange={handleChange} />
+              <InputField label="Humidity (%)" name="humidity" value={formData.humidity} onChange={handleChange} />
+              <InputField label="Rainfall (mm)" name="rainfall" value={formData.rainfall} onChange={handleChange} />
+              
+              <button type="submit" disabled={loading} className="flex justify-center items-center px-6 py-3 mt-4 w-full font-semibold text-white bg-green-600 rounded-lg shadow-md transition-all duration-300 hover:bg-green-700 hover:shadow-lg disabled:bg-gray-400">
+                {loading ? <Loader className="animate-spin" /> : "Get Recommendation"}
+              </button>
+            </form>
+          </div>
 
-      <label className="block">
-        District:
-        <select
-          name="district"
-          value={formData.district}
-          onChange={handleChange}
-          className="w-full p-2 border rounded-md"
-          disabled={!formData.state}
-        >
-          <option value="">Select District</option>
-          {dist.map((district) => (
-            <option key={district} value={district}>
-              {district}
-            </option>
-          ))}
-        </select>
-      </label>
-
-      <label className="block">
-        Season:
-        <select
-          name="season"
-          value={formData.season}
-          onChange={handleChange}
-          className="w-full p-2 border rounded-md"
-        >
-          <option value="">Select Season</option>
-          {seasons.map((season) => (
-            <option key={season} value={season}>
-              {season}
-            </option>
-          ))}
-        </select>
-      </label>
-      
-      {["N", "P", "K", "temperature", "humidity", "ph", "rainfall"].map(
-        (param) => (
-          <label key={param} className="block">
-            {param.charAt(0).toUpperCase() + param.slice(1)}:
-            <input
-              type="number"
-              name={param}
-              value={formData[param]}
-              onChange={handleChange}
-              className="w-full p-2 border rounded-md"
-            />
-          </label>
-        )
-      )}
-
-      <button
-        type="submit"
-        className="bg-green-600 text-white py-2 px-4 rounded-md w-full hover:bg-green-700"
-      >
-        {loading ? "Loading..." : "Get Recommendation"}
-      </button>
-    </form>
-  </div>
-
-  {/* Display Recommendations */}
-  {recommendations.length > 0 && (
-  <div className="w-3/5 p-4 rounded-md mt-10 lg:w-1/2 min-h-[500px]">
-    <h3 className="text-xl font-semibold mb-3">Recommended Crops:</h3>
-    <div className="grid grid-cols-1 gap-5">
-      {recommendations.map((crop) => (
-        <div
-          key={crop}
-          className="border p-3 rounded-md shadow-md text-center"
-        >
-          <img
-            src={images[crop] || "https://via.placeholder.com/150?text=Loading"}
-            alt={crop}
-            className="w-full h-40 object-cover rounded-md"
-          />
-          <p className="text-lg font-bold mt-2 capitalize">{crop}</p>
-        </div>
-      ))}
+          <div className="p-6 bg-white rounded-xl border border-gray-200 shadow-lg lg:col-span-2">
+            <h2 className="mb-6 text-xl font-bold text-gray-800">Recommended Crops</h2>
+            <AnimatePresence>
+              {recommendations.length > 0 ? (
+                <motion.div className="space-y-4">
+                  {(imageLoading ? [...Array(4)] : recommendations).map((crop, index) =>
+                    imageLoading ? <CropCardSkeleton key={index} /> : (
+                    <motion.div
+                      key={crop}
+                      className="overflow-hidden relative rounded-lg group"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                    >
+                      <img src={images[crop]} alt={crop} className="object-cover w-full h-32" />
+                      <div className="absolute inset-0 bg-gradient-to-t to-transparent from-black/60 via-black/20"></div>
+                      <h3 className="absolute bottom-4 left-4 text-2xl font-bold tracking-wide text-white capitalize">{crop}</h3>
+                    </motion.div>
+                    )
+                  )}
+                </motion.div>
+              ) : (
+                <div className="flex flex-col justify-center items-center h-full text-center text-gray-500">
+                  <Leaf size={48} className="mb-4 text-gray-300" />
+                  <h3 className="text-lg font-semibold">Your crop recommendations will appear here.</h3>
+                  <p>Fill out the form to get started.</p>
+                </div>
+              )}
+            </AnimatePresence>
+          </div>
+        </motion.div>
+      </main>
     </div>
-  </div>
-)}
-
-</div>
-
-
-            </>
   );
 };
 

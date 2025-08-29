@@ -1,150 +1,154 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { FaArrowRight, FaLeaf } from "react-icons/fa";
-import { motion, AnimatePresence } from "framer-motion";
-import { Skeleton } from "@mui/material"; 
+import { ArrowRight, Leaf } from "lucide-react";
+import { motion } from "framer-motion";
+import { format } from 'date-fns';
+import { Link } from "react-router-dom"; 
+
+const NewsCardSkeleton = () => (
+  <div className="p-4 bg-white rounded-xl border border-gray-200">
+    <div className="mb-4 w-full h-48 bg-gray-200 rounded-lg animate-pulse"></div>
+    <div className="mb-2 w-1/3 h-4 bg-gray-200 rounded animate-pulse"></div>
+    <div className="mb-1 w-full h-6 bg-gray-200 rounded animate-pulse"></div>
+    <div className="mb-4 w-3/4 h-6 bg-gray-200 rounded animate-pulse"></div>
+    <div className="w-full h-10 bg-gray-200 rounded animate-pulse"></div>
+  </div>
+);
 
 const News = () => {
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);
+  
+
 
   useEffect(() => {
     const fetchNews = async () => {
+      setLoading(true);
       try {
         const response = await axios.get("https://newsapi.org/v2/everything", {
           params: {
-            q: "agriculture sustainable farming",
-            sortBy: "publishedAt",
+            q: "agriculture OR sustainable farming OR agritech",
+            sortBy: "relevancy",
             pageSize: 3,
+            language: 'en',
             apiKey: "53c8d29069084e49af47d657d3c57daa",
           },
         });
         setNews(response.data.articles);
-        setLoading(false);
       } catch (error) {
         console.error("Error fetching news:", error);
+      } finally {
         setLoading(false);
       }
     };
-
     fetchNews();
   }, []);
 
-
   const containerVariants = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
+    hidden: {},
+    visible: {
       transition: {
-        staggerChildren: 0.2,
+        staggerChildren: 0.1,
       },
     },
   };
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0 },
+  const cardVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        damping: 15,
+        stiffness: 100,
+      },
+    },
   };
 
   return (
-    <section className="py-16 bg-gradient-to-b from-green-50 to-white" id="news">
+    <section className="py-24 bg-white" id="news">
       <div className="container px-4 mx-auto max-w-7xl">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.5 }}
           transition={{ duration: 0.5 }}
-          className="mb-12 text-center"
+          className="mb-16 text-center"
         >
-          <div className="inline-block p-4 mb-4 bg-green-100 rounded-full">
-            <FaLeaf className="text-4xl text-green-700" />
+          <div className="inline-block p-3 mb-4 bg-green-100 rounded-full">
+            <Leaf className="w-8 h-8 text-green-600" />
           </div>
-          <h2 className="mb-4 text-4xl font-bold font-playfair">
-            <span className="text-gray-800">Agricultural</span>{" "}
-            <span className="text-green-700">Insights</span>
+          <h2 className="mb-4 text-4xl font-bold tracking-tight text-gray-800 md:text-5xl">
+            Agricultural <span className="text-green-600">Insights</span>
           </h2>
-          <p className="text-lg text-gray-600">
-            Stay updated with the latest innovations in sustainable farming
+          <p className="mx-auto max-w-2xl text-lg text-gray-600">
+            Stay updated with the latest innovations and trends in sustainable farming.
           </p>
         </motion.div>
 
-        <AnimatePresence>
+        <motion.div
+          className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+        >
           {loading ? (
-            <div className="grid gap-8 md:grid-cols-3">
-              {[...Array(3)].map((_, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="p-6 bg-white rounded-lg shadow-md"
-                >
-                  <Skeleton variant="rectangular" height={200} className="mb-4 rounded-lg" />
-                  <Skeleton variant="text" width="80%" height={32} />
-                  <Skeleton variant="text" width="100%" height={72} />
-                </motion.div>
-              ))}
-            </div>
+            [...Array(3)].map((_, index) => <NewsCardSkeleton key={index} />)
           ) : (
-            <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              animate="show"
-              className="grid gap-8 md:grid-cols-3"
-            >
-              {news.map((article, index) => (
-                <motion.div
-                  key={index}
-                  variants={itemVariants}
-                  className="overflow-hidden bg-white rounded-lg shadow-lg transition-shadow duration-300 hover:shadow-xl"
-                >
-                  {article.urlToImage && (
-                    <div className="overflow-hidden relative h-48">
-                      <img
-                        src={article.urlToImage}
-                        alt={article.title}
-                        className="object-cover w-full h-full transition-transform duration-500 hover:scale-105"
-                        onError={(e) => {
-                          e.target.src = '/fallback-agriculture-image.jpg';
-                        }}
-                      />
+            news.map((article, index) => (
+              <motion.a
+                key={index}
+                href={article.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex overflow-hidden flex-col bg-white rounded-xl border border-gray-200 shadow-sm transition-all duration-300 group hover:shadow-2xl hover:-translate-y-2"
+                variants={cardVariants}
+              >
+                <div className="overflow-hidden h-52">
+                  <img
+                    src={article.urlToImage || '/fallback-agriculture-image.jpg'}
+                    alt={article.title}
+                    className="object-cover w-full h-full transition-transform duration-500 ease-in-out group-hover:scale-105"
+                  />
+                </div>
+                <div className="flex flex-col flex-grow p-6">
+                  <div className="flex-grow">
+                    <div className="flex justify-between items-center mb-3 text-sm text-gray-500">
+                      <span>{article.source.name}</span>
+                      <span>{format(new Date(article.publishedAt), 'MMM d, yyyy')}</span>
                     </div>
-                  )}
-                  <div className="p-6">
-                    <h3 className="mb-3 text-xl font-semibold text-green-800">
+                    <h3 className="mb-4 text-lg font-bold leading-tight text-gray-800 transition-colors duration-300 group-hover:text-green-600">
                       {article.title}
                     </h3>
-                    <p className="mb-4 text-gray-600 line-clamp-3">
-                      {article.description}
-                    </p>
-                    <motion.a
-                      href={article.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center font-medium text-green-700 hover:text-green-900 group"
-                      whileHover={{ x: 5 }}
-                    >
-                      Read More
-                      <FaArrowRight className="ml-2 transition-transform group-hover:translate-x-1" />
-                    </motion.a>
                   </div>
-                </motion.div>
-              ))}
-            </motion.div>
+                  <div className="flex items-center mt-auto font-semibold text-green-600">
+                    Read Article
+                    <ArrowRight className="ml-2 w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
+                  </div>
+                </div>
+              </motion.a>
+            ))
           )}
-        </AnimatePresence>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          className="mt-12 text-center"
-        >
-          <a
-            href="/news"
-            className="inline-flex items-center px-8 py-3 text-lg font-medium text-white bg-green-700 rounded-lg transition-all duration-300 hover:bg-green-800 hover:shadow-lg"
-          >
-            Explore More Insights
-            <FaArrowRight className="ml-2 transition-transform group-hover:translate-x-1" />
-          </a>
         </motion.div>
+
+        {!loading && (
+          <motion.div
+            className="mt-16 text-center"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+          >
+            <Link
+              to="/news"
+              className="inline-flex items-center px-8 py-3 text-base font-semibold text-white bg-green-600 rounded-full shadow-lg transition-all duration-300 hover:bg-green-700 hover:shadow-xl hover:scale-105"
+            >
+              Explore More Insights
+              <ArrowRight className="ml-2 w-5 h-5" />
+            </Link>
+          </motion.div>
+        )}
       </div>
     </section>
   );
