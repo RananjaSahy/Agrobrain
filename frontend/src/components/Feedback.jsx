@@ -52,7 +52,7 @@ const FeedbackForm = () => {
           </motion.div>
           <h2 className="mb-4 text-4xl font-bold font-playfair">
             <span className="text-gray-800">Cultivate</span>{" "}
-            <span className="text-[#5DB996]">Connection</span>
+            <span className="text-green-700">Connection</span>
           </h2>
           <p className="text-lg text-gray-600">
             Your insights help us grow better solutions for modern agriculture

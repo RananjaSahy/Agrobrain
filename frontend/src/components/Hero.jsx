@@ -26,38 +26,7 @@ const HeroSection = () => {
       <div className="flex relative z-10 flex-col justify-center items-center h-full bg-black/25">
         
       
-        <motion.div
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 cursor-pointer"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1 }}
-          onClick={() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })}
-        >
-          <motion.div
-            className="flex flex-col items-center space-y-2"
-            whileHover={{ scale: 1.1 }}
-          >
-            <ChevronDown
-              className="text-[#5DB996] w-10 h-10 animate-bounce"
-              strokeWidth={1.5}
-            />
-            <motion.div
-              className="h-12 w-1 bg-gradient-to-b from-[#5DB996]/80 to-transparent rounded-full"
-              animate={{
-                y: [0, 15, 0],
-                opacity: [1, 0.5, 1]
-              }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-            />
-            <span className="text-sm font-medium text-[#5DB996] opacity-0 transition-opacity duration-300 hover:opacity-100">
-              Explore Solutions
-            </span>
-          </motion.div>
-        </motion.div>
+
       </div>
     </div>
   );

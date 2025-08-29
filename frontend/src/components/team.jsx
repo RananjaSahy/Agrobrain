@@ -78,7 +78,7 @@ const Team = () => {
       <div className="container px-4 mx-auto">
         <div className="mb-16 text-center">
           <h1 className="mb-4 text-4xl font-bold text-gray-800 md:text-5xl">
-            Meet Our <span className="text-[#5DB996]">Team</span>
+            Meet Our <span className="text-green-700">Team</span>
           </h1>
           <p className="mx-auto max-w-2xl text-lg text-gray-600">
             Dedicated professionals working together to bring innovation and excellence to every project.
@@ -154,7 +154,7 @@ const Team = () => {
               <div className="absolute top-1/2 left-1/2 z-10 text-center transform -translate-x-1/2 -translate-y-1/2">
                 <div className="flex justify-center items-center w-48 h-48 bg-white rounded-full shadow-lg">
                   <div className="p-6">
-                    <h2 className="text-2xl font-bold text-[#5DB996]">Our Team</h2>
+                    <h2 className="text-2xl font-bold text-green-700">Our Team</h2>
                   </div>
                 </div>
               </div>

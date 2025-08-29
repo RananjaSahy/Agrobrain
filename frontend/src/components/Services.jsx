@@ -45,7 +45,7 @@ const Services = () => {
               whileInView="onscreen"
               viewport={{ once: true, margin: "-50px" }}
               variants={cardVariants}
-              className="relative group cursor-pointer"
+              className="relative cursor-pointer group"
               onClick={() => {
                 if (service.link) {
                   window.open(service.link, "_blank"); // Open external links in a new tab
@@ -60,7 +60,7 @@ const Services = () => {
                 </motion.div>
                 <motion.div className="p-5 bg-gradient-to-b from-white to-gray-50" whileHover={{ y: -3 }}>
                   <h3 className="mb-2 text-xl font-semibold text-gray-800">{service.title}</h3>
-                  <div className="mb-3 w-12 h-1 bg-gradient-to-r from-emerald-500 to-teal-400 rounded-full" />
+                  <div className="mb-3 w-12 h-1 text-green-700 bg-gradient-to-r from-emerald-500 rounded-full" />
                 </motion.div>
               </div>
             </motion.div>

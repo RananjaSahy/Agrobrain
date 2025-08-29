@@ -35,7 +35,7 @@ const WhatAreWeCapableOf = () => {
 
   return (
     <div className="flex flex-col justify-center items-center p-8 bg-gray-100" id="about">
-    <h2 className="p-4 mb-12 text-5xl font-bold text-center text-teal-600 rounded-md text-shadow">
+    <h2 className="p-4 mb-12 text-5xl font-bold text-center text-green-700 rounded-md text-shadow">
       <span className="text-shadow-lg">What are we capable of:</span>
     </h2>
 

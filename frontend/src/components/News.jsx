@@ -60,7 +60,7 @@ const News = () => {
           </div>
           <h2 className="mb-4 text-4xl font-bold font-playfair">
             <span className="text-gray-800">Agricultural</span>{" "}
-            <span className="text-[#5DB996]">Insights</span>
+            <span className="text-green-700">Insights</span>
           </h2>
           <p className="text-lg text-gray-600">
             Stay updated with the latest innovations in sustainable farming

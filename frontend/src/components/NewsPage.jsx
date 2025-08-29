@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import image from "../assets/logo.png";
 import { useNavigate } from "react-router-dom";
 import LoadingComponent from "./Loding";
 
@@ -48,7 +47,9 @@ const NewsPage = () => {
 
     <div className="flex-shrink-0">
       <a onClick={() => navigate("/")} className="cursor-pointer">
-        <img src={image} alt="Logo" className="w-auto h-20" />
+      <span className="text-2xl font-bold tracking-tight text-gray-800 font-inter">
+              <span className="text-green-700">Agro</span>Brain
+            </span>
       </a>
     </div>
 
@@ -56,7 +57,7 @@ const NewsPage = () => {
     <div className="sm:hidden">
       <button
         onClick={() => navigate("/")}
-        className="px-4 py-2 text-white bg-red-500 rounded-md transition-all duration-200 hover:bg-red-600"
+        className="px-4 py-2 text-white bg-red-600 rounded-md transition-all duration-200 hover:bg-red-600"
       >
         Go Back
       </button>
@@ -66,7 +67,7 @@ const NewsPage = () => {
     <div className="hidden items-center sm:flex">
       <button
         onClick={() => navigate("/")}
-        className="px-6 py-2 text-white bg-red-500 rounded-md transition-all duration-200 hover:bg-red-600"
+        className="px-6 py-2 text-white bg-red-600 rounded-md transition-all duration-200 hover:bg-red-600"
       >
         Go Back
       </button>
@@ -77,7 +78,7 @@ const NewsPage = () => {
     <br />
     <br />
     <br />
-    <h1 class="mb-6 text-4xl font-bold text-center text-teal-600">Latest News</h1>
+    <h1 class="mb-6 text-4xl font-bold text-center text-green-700">Latest News</h1>
       <div className="news-container">
         {newsArticles.map((article, index) => (
           <div className="news-card" key={index}>
