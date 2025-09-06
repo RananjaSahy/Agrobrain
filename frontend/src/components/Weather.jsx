@@ -6,6 +6,8 @@ import {
 } from "react-icons/wi";
 import { Thermometer, Droplets, Wind, Compass, Sunrise, Sunset, AlertTriangle, Droplet } from "lucide-react";
 import { format } from 'date-fns';
+import { fr } from 'date-fns/locale';
+
 
 const getWeatherIcon = (iconCode, size = "text-5xl") => {
   const code = iconCode.slice(0, 2);
@@ -24,7 +26,7 @@ const getWeatherIcon = (iconCode, size = "text-5xl") => {
 };
 
 const Weather = () => {
-  const [city, setCity] = useState("No Location Set");
+  const [city, setCity] = useState("Aucun emplacement défini");
   const [weatherData, setWeatherData] = useState(null);
   const [forecastData, setForecastData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -38,11 +40,11 @@ const Weather = () => {
       setError(null);
       try {
         const [weatherRes, forecastRes] = await Promise.all([
-          fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=metric`),
-          fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${apiKey}&units=metric`)
+          fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=metric&lang=fr`),
+          fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${apiKey}&units=metric&lang=fr`)
         ]);
 
-        if (!weatherRes.ok || !forecastRes.ok) throw new Error('Failed to fetch weather data.');
+        if (!weatherRes.ok || !forecastRes.ok) throw new Error('Échec de la récupération des données météorologiques.');
         
         const weather = await weatherRes.json();
         const forecast = await forecastRes.json();
@@ -66,8 +68,8 @@ const Weather = () => {
         fetchWeather(savedLocation);
     } else {
         setLoading(false);
-        setError("Location not found in local storage. Please set it on the dashboard.");
-        setCity("Unknown Location");
+        setError("Emplacement introuvable dans le stockage local. Veuillez le définir sur le tableau de bord.");
+        setCity("Emplacement inconnu");
     }
   }, [apiKey]);
   
@@ -94,8 +96,8 @@ const Weather = () => {
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
             >
-                <h1 className="text-3xl font-bold text-gray-800">Agricultural Weather Dashboard</h1>
-                <p className="mt-2 text-gray-600">Real-time weather insights for <span className="font-semibold text-green-600">{city}</span></p>
+                <h1 className="text-3xl font-bold text-gray-800">Tableau de bord météo agricole</h1>
+                <p className="mt-2 text-gray-600">Des informations météorologiques en temps réel pour <span className="font-semibold text-green-600">{city}</span></p>
             </motion.div>
 
             {loading ? (
@@ -110,21 +112,21 @@ const Weather = () => {
                             <p className="mt-2 text-6xl font-bold text-gray-800">{Math.round(weatherData.main.temp)}°C</p>
                             <p className="text-lg text-gray-600 capitalize">{weatherData.weather[0].description}</p>
                             <p className="mt-4 text-sm text-gray-500">
-                                Feels like {Math.round(weatherData.main.feels_like)}°C
+                                {/* Feels like {Math.round(weatherData.main.feels_like)}°C */}
                             </p>
                         </div>
                         <div className="grid grid-cols-2 gap-4 lg:col-span-2">
-                           <StatCard Icon={Droplets} title="Humidity" value={`${weatherData.main.humidity}%`} color="blue" />
-                           <StatCard Icon={Wind} title="Wind Speed" value={`${weatherData.wind.speed} km/h`} color="sky" />
-                           <StatCard Icon={Compass} title="Pressure" value={`${weatherData.main.pressure} hPa`} color="slate" />
-                           <StatCard Icon={Thermometer} title="High / Low" value={`${Math.round(weatherData.main.temp_max)}° / ${Math.round(weatherData.main.temp_min)}°`} color="orange" />
-                           <StatCard Icon={Sunrise} title="Sunrise" value={format(new Date(weatherData.sys.sunrise * 1000), 'p')} color="amber" />
-                           <StatCard Icon={Sunset} title="Sunset" value={format(new Date(weatherData.sys.sunset * 1000), 'p')} color="indigo" />
+                           <StatCard Icon={Droplets} title="Humidité" value={`${weatherData.main.humidity}%`} color="blue" />
+                           <StatCard Icon={Wind} title="Vitesse du vent" value={`${weatherData.wind.speed} km/h`} color="sky" />
+                           <StatCard Icon={Compass} title="Pression" value={`${weatherData.main.pressure} hPa`} color="slate" />
+                           <StatCard Icon={Thermometer} title="Haut / Bas" value={`${Math.round(weatherData.main.temp_max)}° / ${Math.round(weatherData.main.temp_min)}°`} color="orange" />
+                           <StatCard Icon={Sunrise} title="Lever du soleil" value={format(new Date(weatherData.sys.sunrise * 1000), 'p',{ locale: fr })} color="amber" />
+                           <StatCard Icon={Sunset} title="Coucher du soleil" value={format(new Date(weatherData.sys.sunset * 1000), 'p',{ locale: fr })} color="indigo" />
                         </div>
                     </div>
                     
                     <div>
-                        <h2 className="mb-4 text-2xl font-bold text-gray-800">7-Day Forecast</h2>
+                        <h2 className="mb-4 text-2xl font-bold text-gray-800">Prévisions sur 7 jours</h2>
                         <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-7">
                             {forecastData.map((day, index) => (
                                 <motion.div 
@@ -134,7 +136,7 @@ const Weather = () => {
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: index * 0.05 }}
                                 >
-                                    <p className="font-semibold text-gray-700">{format(new Date(day.dt_txt), 'EEE')}</p>
+                                    <p className="font-semibold text-gray-700">{format(new Date(day.dt_txt), 'EEE', { locale: fr })}</p>
                                     <div className="my-2">{getWeatherIcon(day.weather[0].icon, 'text-4xl')}</div>
                                     <p className="font-bold text-gray-800">{Math.round(day.main.temp_max)}°</p>
                                     <p className="text-sm text-gray-500">{Math.round(day.main.temp_min)}°</p>
@@ -145,22 +147,22 @@ const Weather = () => {
 
                      <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
                         <div className="p-6 bg-white rounded-2xl border border-gray-200 shadow-lg">
-                           <h3 className="mb-4 text-xl font-semibold text-gray-800">Irrigation Schedule</h3>
+                           <h3 className="mb-4 text-xl font-semibold text-gray-800">Calendrier d'arrosage</h3>
                            <div className="flex gap-4 items-center">
                               <div className="p-3 bg-blue-100 rounded-full"><Droplet className="w-6 h-6 text-blue-600" /></div>
                               <div>
-                                 <p className="font-semibold text-gray-700">Next irrigation recommended</p>
-                                 <p className="text-gray-500">Wednesday, 3:00 PM</p>
+                                 <p className="font-semibold text-gray-700">Prochain arrosage recommandé</p>
+                                 <p className="text-gray-500">Mercredi, 15h00</p>
                               </div>
                            </div>
                         </div>
                         <div className="p-6 bg-white rounded-2xl border border-gray-200 shadow-lg">
-                           <h3 className="mb-4 text-xl font-semibold text-gray-800">Pest Forecast</h3>
+                           <h3 className="mb-4 text-xl font-semibold text-gray-800">Prévisions antiparasitaires</h3>
                            <div className="flex gap-4 items-center">
                               <div className="p-3 bg-red-100 rounded-full"><AlertTriangle className="w-6 h-6 text-red-600" /></div>
                               <div>
-                                 <p className="font-semibold text-gray-700">Low risk detected</p>
-                                 <p className="text-gray-500">No immediate action needed</p>
+                                 <p className="font-semibold text-gray-700">Faible risque détecté</p>
+                                 <p className="text-gray-500">Aucune action immédiate nécessaire</p>
                               </div>
                            </div>
                         </div>

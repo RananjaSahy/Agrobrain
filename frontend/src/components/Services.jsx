@@ -4,10 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { Leaf, ArrowRight } from "lucide-react";
 
 const services = [
-    { title: "Crop Recommendation", description: "AI-driven advice on the best crops for your soil and climate.", image: "/plant.jpg" },
-    { title: "Disease Predictor", description: "Early detection of crop diseases to protect your yield.", image: "/glass.jpg" },
-    { title: "Fertilizer Insights", description: "Optimize fertilizer usage with data-driven recommendations.", image: "/field.jpg", link: "https://huggingface.co/spaces/Nimbus10/FRS" },
-    { title: "Weather Forecasting", description: "Hyper-local weather forecasts to plan your farming activities.", image: "/sun.jpg", link: "http://cropsphere.onrender.com/" },
+    { title: "Recommandation de culture", description: "Des conseils basés sur l'IA sur les meilleures cultures pour votre sol et votre climat.", image: "/plant.jpg", url : "crop-recommendation" },
+    { title: "Prédicteur de maladie", description: "Détection précoce des maladies des cultures pour protéger votre rendement.", image: "/glass.jpg", url : "disease-predictor" },
 ];
 
 const containerVariants = {
@@ -49,14 +47,14 @@ const Services = () => {
           <div className="inline-block p-3 mb-4 bg-green-100 rounded-full">
             <Leaf className="w-8 h-8 text-green-600" />
           </div>
-          <h2 className="mb-4 text-4xl font-bold tracking-tight text-gray-800 md:text-5xl">Our Services</h2>
+          <h2 className="mb-4 text-4xl font-bold tracking-tight text-gray-800 md:text-5xl">Nos Services</h2>
           <p className="mx-auto max-w-2xl text-lg text-gray-600">
-            Harnessing AI and Precision Analytics for Next-Gen Agricultural Solutions
+          Exploiter l’IA et l’analyse de précision pour les solutions agricoles de nouvelle génération
           </p>
         </motion.div>
 
         <motion.div
-          className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4"
+          className="grid grid-cols-1 md:grid-cols-2 gap-8"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -71,7 +69,7 @@ const Services = () => {
                 if (service.link) {
                   window.open(service.link, "_blank");
                 } else {
-                  navigate(`/services/${service.title.replace(/\s+/g, "-").toLowerCase()}`);
+                  navigate(`/services/${service.url}`);
                 }
               }}
             >
@@ -86,7 +84,7 @@ const Services = () => {
                 <h3 className="mb-2 text-xl font-bold text-gray-900">{service.title}</h3>
                 <p className="mb-4 text-gray-600">{service.description}</p>
                 <div className="flex items-center font-semibold text-green-600 transition-all duration-300 group-hover:text-green-700">
-                  Learn More
+                  En savoir plus
                   <ArrowRight className="ml-2 w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
                 </div>
               </div>

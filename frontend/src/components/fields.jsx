@@ -6,10 +6,10 @@ import {
 import Sidebar from "./Sidebar";
 
 const fields = [
-    { location: "Kolkata, WB", crop: "Rice", size: 10, yield: 80, status: "Ready for sowing", lastActivity: "Fertilizer applied 2 days ago", diseases: "3 detections", soilMoisture: 62 },
-    { location: "Punjab", crop: "Wheat", size: 15, yield: 75, status: "Vegetative", lastActivity: "Irrigation completed 1 day ago", diseases: "1 detection", soilMoisture: 58 },
-    { location: "Goa", crop: "Rice", size: 8, yield: 85, status: "Seedling stage", lastActivity: "Pesticide applied 3 days ago", diseases: "No recent detections", soilMoisture: 65 },
-    { location: "Bangalore, KA", crop: "Maize", size: 12, yield: 78, status: "Tasseling", lastActivity: "Fertilizer applied 5 days ago", diseases: "2 detections", soilMoisture: 60 },
+    { location: "Kolkata, WB", crop: "Riz", size: 10, yield: 80, status: "Prêt pour le semis", lastActivity: "Engrais appliqué il y a 2 jours", diseases: "3 détections", soilMoisture: 62 },
+    { location: "Pendjab", crop: "Blé", size: 15, yield: 75, status: "Végétatif", lastActivity: "Irrigation effectuée il y a 1 jour", diseases: "1 détection", soilMoisture: 58 },
+    { location: "Goa", crop: "Riz", size: 8, yield: 85, status: "Stade plantule", lastActivity: "Pesticide appliqué il y a 3 jours", diseases: "Aucune détection récente", soilMoisture: 65 },
+    { location: "Bangalore, KA", crop: "Maïs", size: 12, yield: 78, status: "Floraison (panicule)", lastActivity: "Engrais appliqué il y a 5 jours", diseases: "2 détections", soilMoisture: 60 },
 ];
 
 const StatCard = ({ title, value, Icon, color }) => (
@@ -38,8 +38,8 @@ const Fields = () => {
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
             >
-                <h1 className="text-3xl font-bold text-gray-800">Field Management</h1>
-                <p className="mt-2 text-gray-600">Monitor and manage your agricultural fields.</p>
+                <h1 className="text-3xl font-bold text-gray-800">Gestion de champs</h1>
+                <p className="mt-2 text-gray-600">Surveillez et gérez vos champs agricoles.</p>
             </motion.div>
 
             {/* --- Current Weather & Add Field --- */}
@@ -49,12 +49,12 @@ const Fields = () => {
                         <Sun className="w-6 h-6 text-yellow-500" />
                     </div>
                     <div>
-                        <p className="font-semibold text-gray-800">Current Weather Conditions</p>
-                        <p className="text-sm text-gray-500">Optimal for field operations</p>
+                        <p className="font-semibold text-gray-800">Conditions météorologiques actuelles</p>
+                        <p className="text-sm text-gray-500">Idéal pour les opérations de champs</p>
                     </div>
                 </div>
                 <button className="px-6 py-3 font-semibold text-white bg-green-600 rounded-full shadow-lg transition-all duration-300 hover:bg-green-700 hover:shadow-xl hover:scale-105">
-                    + Add New Field
+                    + Nouveau champ
                 </button>
             </div>
 
@@ -78,11 +78,11 @@ const Fields = () => {
                         
                         <div className="grid grid-cols-2 gap-4 mb-4">
                             <div>
-                                <p className="text-sm text-gray-500">Field Size</p>
-                                <p className="text-lg font-bold text-gray-800">{field.size} acres</p>
+                                <p className="text-sm text-gray-500">Taille du champ</p>
+                                <p className="text-lg font-bold text-gray-800">{field.size} ha</p>
                             </div>
                             <div>
-                                <p className="text-sm text-gray-500">Projected Yield</p>
+                                <p className="text-sm text-gray-500">Rendement projeté</p>
                                 <div className="flex gap-2 items-center">
                                     <div className="w-full bg-gray-200 rounded-full h-2.5">
                                         <div className="bg-green-500 h-2.5 rounded-full" style={{ width: `${field.yield}%` }}></div>
@@ -93,9 +93,9 @@ const Fields = () => {
                         </div>
 
                         <div className="space-y-3 text-sm">
-                            <div className="flex gap-3 items-center"><Leaf className="w-4 h-4 text-green-500" /><span className="text-gray-500">Soil Status:</span> <strong className="text-gray-700">{field.status}</strong></div>
-                            <div className="flex gap-3 items-center"><Droplet className="w-4 h-4 text-blue-500" /><span className="text-gray-500">Soil Moisture:</span> <strong className="text-gray-700">{field.soilMoisture}%</strong></div>
-                            <div className="flex gap-3 items-center"><Activity className="w-4 h-4 text-purple-500" /><span className="text-gray-500">Last Activity:</span> <strong className="text-gray-700">{field.lastActivity}</strong></div>
+                            <div className="flex gap-3 items-center"><Leaf className="w-4 h-4 text-green-500" /><span className="text-gray-500">Statut du sol :</span> <strong className="text-gray-700">{field.status}</strong></div>
+                            <div className="flex gap-3 items-center"><Droplet className="w-4 h-4 text-blue-500" /><span className="text-gray-500">Humidité du sol :</span> <strong className="text-gray-700">{field.soilMoisture}%</strong></div>
+                            <div className="flex gap-3 items-center"><Activity className="w-4 h-4 text-purple-500" /><span className="text-gray-500">Dernière activité :</span> <strong className="text-gray-700">{field.lastActivity}</strong></div>
                         </div>
                         
                         <div className="p-3 mt-4 text-center text-red-700 bg-red-50 rounded-lg border border-red-200">
@@ -111,11 +111,11 @@ const Fields = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
             >
-                <h2 className="mb-6 text-2xl font-bold text-gray-800">Regional Performance</h2>
+                <h2 className="mb-6 text-2xl font-bold text-gray-800">Performance régionale</h2>
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                    <StatCard title="Total Cultivation Area" value="65 acres" Icon={AreaChart} color="green" />
-                    <StatCard title="Average Yield" value="78.4%" Icon={Thermometer} color="blue" />
-                    <StatCard title="Active Fields" value={fields.length} Icon={Box} color="purple" />
+                    <StatCard title="Superficie totale de culture" value="65 ha" Icon={AreaChart} color="green" />
+                    <StatCard title="Rendement moyen" value="78.4%" Icon={Thermometer} color="blue" />
+                    <StatCard title="Champs actifs" value={fields.length} Icon={Box} color="purple" />
                 </div>
             </motion.div>
         </div>

@@ -38,10 +38,11 @@ const StatCard = ({ title, value, percentage, Icon, color }) => {
 
 const CropRecommendations = () => {
   const recommendations = [
-    { name: "Rice Cultivation Area A", yield: "500kg/acre", period: "90 days", soilDepth: "60cm", mineralContent: "High Phosphorus", pHLevel: "6.5", coordinates: "34°N, 118°W", status: "active", lastUpdated: "2h ago" },
-    { name: "Wheat Zone B", yield: "420kg/acre", period: "120 days", soilDepth: "45cm", mineralContent: "Medium Nitrogen", pHLevel: "7.0", coordinates: "35°N, 119°W", status: "pending", lastUpdated: "4h ago" },
-    { name: "Maize Region C", yield: "600kg/acre", period: "100 days", soilDepth: "75cm", mineralContent: "High Potassium", pHLevel: "6.8", coordinates: "33°N, 117°W", status: "active", lastUpdated: "1h ago" }
-  ];
+    { name: "Zone de culture du riz A", yield: "500kg/ha", period: "90 jours", soilDepth: "60cm", mineralContent: "Phosphore élevé", pHLevel: "6,5", coordinates: "34°N, 118°O", status: "actif", lastUpdated: "il y a 2h" },
+    { name: "Zone de blé B", yield: "420kg/ha", period: "120 jours", soilDepth: "45cm", mineralContent: "Azote moyen", pHLevel: "7,0", coordinates: "35°N, 119°O", status: "en attente", lastUpdated: "il y a 4h" },
+    { name: "Région de maïs C", yield: "600kg/ha", period: "100 jours", soilDepth: "75cm", mineralContent: "Potassium élevé", pHLevel: "6,8", coordinates: "33°N, 117°O", status: "actif", lastUpdated: "il y a 1h" }
+];
+
 
   const getStatusColor = (status) => {
     const colors = {
@@ -75,9 +76,9 @@ const CropRecommendations = () => {
             {/* --- Header --- */}
             <div className="flex flex-col gap-6 mb-8 lg:flex-row lg:items-center lg:justify-between">
               <div>
-                <h1 className="text-3xl font-bold text-gray-800 lg:text-4xl">Agricultural Mining Operations</h1>
+                <h1 className="text-3xl font-bold text-gray-800 lg:text-4xl">Opérations minières agricoles</h1>
                 <p className="mt-2 text-gray-600">
-                  Integrated analysis of soil conditions, mineral content, and crop suitability.
+                Analyse intégrée des conditions du sol, de la teneur en minéraux et de l'adéquation des cultures.
                 </p>
               </div>
               <div className="flex flex-col gap-4 sm:flex-row">
@@ -91,32 +92,32 @@ const CropRecommendations = () => {
                 </div>
                 <button className="flex gap-2 justify-center items-center px-5 py-2 font-semibold text-white bg-green-600 rounded-full shadow-md transition-all hover:bg-green-700 hover:shadow-lg">
                   <Plus className="w-5 h-5" />
-                  <span>New Analysis</span>
+                  <span>Analyse</span>
                 </button>
                 <button className="flex gap-2 justify-center items-center px-5 py-2 font-semibold text-green-600 bg-white rounded-full border border-green-600 transition-all hover:bg-green-50">
                   <Download className="w-5 h-5" />
-                  <span>Export</span>
+                  <span>Exporter</span>
                 </button>
               </div>
             </div>
 
             {/* --- Stat Cards --- */}
             <div className="grid grid-cols-1 gap-6 mb-8 sm:grid-cols-2 lg:grid-cols-4">
-                <StatCard title="Total Active Sites" value="24" percentage="12%" Icon={Mountain} color="green" />
-                <StatCard title="Average Soil Quality" value="87%" percentage="5%" Icon={Shovel} color="blue" />
-                <StatCard title="Monthly Yield" value="1.8K tons" Icon={LineChart} color="purple" />
-                <StatCard title="Resource Efficiency" value="92%" percentage="8%" Icon={TrendingUp} color="amber" />
+                <StatCard title="Total de sites actifs" value="24" percentage="12%" Icon={Mountain} color="green" />
+                <StatCard title="Qualité moyenne du sol" value="87%" percentage="5%" Icon={Shovel} color="blue" />
+                <StatCard title="Rendement mensuel" value="1.8K tons" Icon={LineChart} color="purple" />
+                <StatCard title="Efficacité des ressources" value="92%" percentage="8%" Icon={TrendingUp} color="amber" />
             </div>
 
             {/* --- Filter Bar --- */}
             <div className="flex flex-wrap gap-4 items-center p-4 mb-8 bg-white rounded-xl border border-gray-200 shadow-sm">
                 <span className="flex gap-2 items-center font-semibold text-gray-700">
                     <Filter className="w-5 h-5" />
-                    Filters:
+                    Filtres:
                 </span>
-                <button className="px-3 py-1.5 text-sm font-medium text-gray-600 bg-gray-100 rounded-full hover:bg-gray-200">Status: Active</button>
-                <button className="px-3 py-1.5 text-sm font-medium text-gray-600 bg-gray-100 rounded-full hover:bg-gray-200">Grade: All</button>
-                <button className="px-3 py-1.5 text-sm font-medium text-gray-600 bg-gray-100 rounded-full hover:bg-gray-200">Yield: High to Low</button>
+                <button className="px-3 py-1.5 text-sm font-medium text-gray-600 bg-gray-100 rounded-full hover:bg-gray-200">Statut: Activf</button>
+                <button className="px-3 py-1.5 text-sm font-medium text-gray-600 bg-gray-100 rounded-full hover:bg-gray-200">Catégorie : Tous</button>
+                <button className="px-3 py-1.5 text-sm font-medium text-gray-600 bg-gray-100 rounded-full hover:bg-gray-200">Rendement : élevé à faible</button>
             </div>
 
             {/* --- Recommendation Cards --- */}
@@ -144,25 +145,25 @@ const CropRecommendations = () => {
 
                   <div className="grid grid-cols-2 gap-4 mb-4">
                     <div className="p-4 bg-gray-50 rounded-lg">
-                      <p className="text-sm text-gray-500">Soil Depth</p>
+                      <p className="text-sm text-gray-500">Profondeur du sol</p>
                       <p className="text-lg font-bold text-gray-800">{site.soilDepth}</p>
                     </div>
                      <div className="p-4 bg-gray-50 rounded-lg">
-                      <p className="text-sm text-gray-500">pH Level</p>
+                      <p className="text-sm text-gray-500">Niveau du pH</p>
                       <p className="text-lg font-bold text-gray-800">{site.pHLevel}</p>
                     </div>
                   </div>
 
                   <div className="flex-grow space-y-1">
-                    <InfoRow Icon={Leaf} title="Mineral Content" value={site.mineralContent} />
-                    <InfoRow Icon={Calendar} title="Growing Period" value={site.period} />
-                    <InfoRow Icon={TrendingUp} title="Yield Potential" value={site.yield} />
+                    <InfoRow Icon={Leaf} title="Teneur en minéraux" value={site.mineralContent} />
+                    <InfoRow Icon={Calendar} title="Période de croissance" value={site.period} />
+                    <InfoRow Icon={TrendingUp} title="Potentiel de rendement" value={site.yield} />
                   </div>
 
                   <div className="flex justify-between items-center pt-4 mt-4 border-t border-gray-100">
-                    <span className="text-sm text-gray-500">Updated: {site.lastUpdated}</span>
+                    <span className="text-sm text-gray-500">Modifié: {site.lastUpdated}</span>
                     <a href="#" className="flex gap-1 items-center text-sm font-semibold text-green-600 hover:underline">
-                      View Details <ArrowUpRight className="w-4 h-4" />
+                      Voir les détails <ArrowUpRight className="w-4 h-4" />
                     </a>
                   </div>
                 </motion.div>

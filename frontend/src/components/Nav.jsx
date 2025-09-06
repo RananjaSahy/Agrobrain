@@ -5,11 +5,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ChevronDown, User, Leaf, LayoutDashboard, LogOut } from "lucide-react";
 
 const navItems = [
-    { name: "Home", id: "home", path: "/" },
-    { name: "About", id: "about", path: "/#about" },
+    { name: "Accueil", id: "home", path: "/" },
+    // { name: "About", id: "about", path: "/#about" },
     { name: "Services", id: "services", path: "/#services" },
-    { name: "Contact", id: "contact", path: "/#contact" },
-    { name: "News", id: "news", path: "/#news" }
+    // { name: "Contact", id: "contact", path: "/#contact" },
+    { name: "Actualités", id: "news", path: "/#news" }
 ];
 
 const Navbar = () => {
@@ -96,13 +96,13 @@ const Navbar = () => {
                   onClick={() => loginWithRedirect()}
                   className="px-5 py-2 text-sm font-semibold text-green-600 rounded-full transition-colors duration-300 hover:bg-green-50"
                 >
-                  Log in
+                  Se connecter
                 </button>
                 <button
                   onClick={() => loginWithRedirect({ screen_hint: 'signup' })}
                   className="px-5 py-2 text-sm font-semibold text-white bg-green-600 rounded-full shadow-md transition-all duration-300 hover:bg-green-700 hover:shadow-lg"
                 >
-                  Get Started
+                  Commencer
                 </button>
               </>
             )}
