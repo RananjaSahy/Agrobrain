@@ -29,17 +29,17 @@ const NewsPage = () => {
       try {
         const response = await axios.get(API_URL, {
           params: {
-            q: "agriculture OR sustainable farming OR agritech",
+            q: "agriculture",
             sortBy: "publishedAt",
             pageSize: 20, 
-            language: 'en',
+            language: 'fr',
             apiKey: API_KEY,
           },
         });
         const filteredArticles = response.data.articles.filter(article => article.urlToImage);
         setNewsArticles(filteredArticles);
       } catch (error) {
-        setError("Failed to fetch news. Please try again later.");
+        setError("Échec de la récupération des actualités. Veuillez réessayer plus tard.");
         console.error("News fetch error:", error);
       } finally {
         setLoading(false);
@@ -68,7 +68,7 @@ const NewsPage = () => {
               className="inline-flex items-center px-4 py-2 text-sm font-semibold text-white bg-green-600 rounded-full shadow-lg transition-all duration-300 hover:bg-green-700 hover:shadow-xl hover:scale-105"
             >
               <ArrowLeft className="mr-2 w-4 h-4" />
-              Go Back
+              Retour
             </button>
           </div>
         </div>
@@ -77,10 +77,10 @@ const NewsPage = () => {
       <main className="container px-4 py-16 mx-auto sm:px-6 lg:px-8">
         <div className="mb-12 text-center">
           <h1 className="text-4xl font-bold tracking-tight text-gray-800 md:text-5xl">
-            Latest Agricultural <span className="text-green-600">Insights</span>
+            Dernières Actualités <span className="text-green-600">Agricoles</span>
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-lg text-gray-600">
-            Explore the latest news and trends shaping the future of farming and technology.
+            Découvrez les dernières nouvelles et tendances qui façonnent l’avenir de l’agriculture et de la technologie.
           </p>
         </div>
 
@@ -116,7 +116,7 @@ const NewsPage = () => {
                     </h3>
                   </div>
                   <div className="flex items-center mt-auto font-semibold text-green-600">
-                    Read Article
+                    Lire l'article
                     <ArrowLeft className="ml-2 w-5 h-5 transition-transform duration-300 transform -rotate-180 group-hover:translate-x-1" />
                   </div>
                 </div>

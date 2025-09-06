@@ -69,7 +69,7 @@ const Dashboard = () => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
           >
-            Farm Dashboard
+            Tableau de bord
           </motion.h1>
 
           <motion.div
@@ -115,10 +115,10 @@ const Dashboard = () => {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2, staggerChildren: 0.1 }}
           >
-            <StatCard title="Fields Owned" value={userData.fieldsOwned} Icon={Sprout} color="green" />
-            <StatCard title="Crops Planted" value={userData.cropsPlanted} Icon={Wheat} color="amber" />
-            <StatCard title="Environmental Impact" value={`${userData.environmentalImpact}%`} Icon={Globe} color="blue" />
-            <StatCard title="Crop Analyses" value={userData.cropAnalyses} Icon={Search} color="purple" />
+            <StatCard title="Parcelles possédées" value={userData.fieldsOwned} Icon={Sprout} color="green" />
+            <StatCard title="Cultures plantées" value={userData.cropsPlanted} Icon={Wheat} color="amber" />
+            <StatCard title="Impact environnemental" value={`${userData.environmentalImpact}%`} Icon={Globe} color="blue" />
+            <StatCard title="Analyses de cultures" value={userData.cropAnalyses} Icon={Search} color="purple" />
           </motion.div>
 
           <div className="grid grid-cols-1 gap-8 mt-8 lg:grid-cols-3">
@@ -128,7 +128,7 @@ const Dashboard = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
             >
-              <h3 className="mb-4 text-xl font-semibold text-gray-800">Yield Progress (kg/acre)</h3>
+              <h3 className="mb-4 text-xl font-semibold text-gray-800">Progression du rendement (kg/ha)</h3>
               <div className="h-80">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={chartData} margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>
@@ -143,8 +143,8 @@ const Dashboard = () => {
             </motion.div>
 
             <div className="space-y-8">
-              <InfoCard title="Recent Weather" value={`${userData.weatherReports} reports`} Icon={Cloud} color="sky" />
-              <InfoCard title="Disease Detection" value={`${userData.diseaseDetections} cases`} Icon={Bug} color="red" />
+              <InfoCard title="Météo récente" value={`${userData.weatherReports} rapports`} Icon={Cloud} color="sky" />
+              <InfoCard title="Détection des maladies" value={`${userData.diseaseDetections} cas`} Icon={Bug} color="red" />
             </div>
           </div>
         </div>

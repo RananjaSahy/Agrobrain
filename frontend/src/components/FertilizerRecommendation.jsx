@@ -9,37 +9,37 @@ const fields = [
     {
         id: 1,
         location: 'Kolkata, WB',
-        fieldName: 'Field 1-Rice',
-        size: '10 acres',
-        lastUpdated: '20th Dec 2024',
+        fieldName: 'Champ 1 - Riz',
+        size: '10 ha',
+        lastUpdated: '20 Déc 2024',
         image: rice,
         recommendations: {
-            urea: '50 kg/acre',
-            potassiumNitrate: '30 kg/acre',
-            zincSulfate: '5 kg/acre',
+            urea: '50 kg/ha',
+            potassiumNitrate: '30 kg/ha',
+            zincSulfate: '5 kg/ha',
             ph: 3
         },
         notes: [
-            'Ensure proper irrigation to maximize fertilizer absorption.',
-            'Conduct a soil pH test for better results.'
+            'Assurer une irrigation adéquate pour maximiser l’absorption des engrais.',
+            'Effectuer un test de pH du sol pour de meilleurs résultats.'
         ]
     },
     {
         id: 2,
-        location: 'Punjab',
-        fieldName: 'Field 2-Wheat',
-        size: '15 acres',
-        lastUpdated: '22nd Dec 2024',
+        location: 'Pendjab',
+        fieldName: 'Champ 2 - Blé',
+        size: '15 ha',
+        lastUpdated: '22 Déc 2024',
         image: Wheat,
         recommendations: {
-            urea: '60 kg/acre',
-            potassiumNitrate: '35 kg/acre',
-            zincSulfate: '7 kg/acre',
+            urea: '60 kg/ha',
+            potassiumNitrate: '35 kg/ha',
+            zincSulfate: '7 kg/ha',
             ph: 6.8
         },
         notes: [
-            'Monitor for signs of nitrogen deficiency.',
-            'Optimal pH range is between 6.0 and 7.0.'
+            'Surveiller les signes de carence en azote.',
+            'La plage de pH optimale est comprise entre 6,0 et 7,0.'
         ]
     }
 ];
@@ -63,8 +63,8 @@ const FertilizerRecommendation = () => {
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
                     >
-                        <h1 className="text-3xl font-bold text-gray-800">Fertilizer Recommendation</h1>
-                        <p className="mt-2 text-gray-600">AI-powered fertilizer insights for your registered fields.</p>
+                        <h1 className="text-3xl font-bold text-gray-800">Recommandation d'engrais</h1>
+                        <p className="mt-2 text-gray-600">Des informations sur les engrais basées sur l'IA pour vos champs enregistrés.</p>
                     </motion.div>
 
                     {/* --- Search Bar --- */}
@@ -99,8 +99,8 @@ const FertilizerRecommendation = () => {
                                                 </div>
                                             </div>
                                             <div className="flex justify-between items-center mt-2 text-sm text-gray-500">
-                                                <span>Size: {field.size}</span>
-                                                <span>Updated: {field.lastUpdated}</span>
+                                                <span>Taille: {field.size}</span>
+                                                <span>Modifié: {field.lastUpdated}</span>
                                             </div>
                                         </div>
                                         <img src={field.image} alt={field.fieldName} className="object-cover w-full h-48 lg:h-full lg:min-h-[300px]" />
@@ -109,11 +109,11 @@ const FertilizerRecommendation = () => {
                                     {/* Right Side: Recommendations */}
                                     <div className="p-6 lg:col-span-3">
                                         <div className="grid grid-cols-2 gap-4">
-                                            <RecommendationCard title="Urea" value={field.recommendations.urea} />
-                                            <RecommendationCard title="Potassium Nitrate" value={field.recommendations.potassiumNitrate} />
-                                            <RecommendationCard title="Zinc Sulfate" value={field.recommendations.zincSulfate} />
+                                            <RecommendationCard title="Urée" value={field.recommendations.urea} />
+                                            <RecommendationCard title="Nitrate de Potassium" value={field.recommendations.potassiumNitrate} />
+                                            <RecommendationCard title="Sulfate de Zinc" value={field.recommendations.zincSulfate} />
                                             <div className="p-4 rounded-lg border border-blue-200 bg-blue-50/70">
-                                                <p className="text-sm text-blue-800">Current pH Level</p>
+                                                <p className="text-sm text-blue-800">Niveau de pH actuel</p>
                                                 <p className="text-4xl font-bold text-blue-900">{field.recommendations.ph}</p>
                                             </div>
                                         </div>
@@ -121,7 +121,7 @@ const FertilizerRecommendation = () => {
                                         <div className="p-4 mt-6 bg-yellow-50 rounded-lg border border-yellow-200">
                                             <div className="flex gap-3 items-center mb-2 font-semibold text-yellow-800">
                                                 <Info className="w-5 h-5" />
-                                                <span>Important Notes</span>
+                                                <span>Remarques importantes</span>
                                             </div>
                                             <ul className="pl-5 space-y-1 list-disc text-yellow-700">
                                                 {field.notes.map((note, idx) => <li key={idx}>{note}</li>)}
@@ -130,7 +130,7 @@ const FertilizerRecommendation = () => {
 
                                         <button className="flex gap-2 justify-center items-center px-6 py-3 mt-6 w-full font-semibold text-white bg-green-600 rounded-full shadow-md transition-all duration-300 hover:bg-green-700 hover:shadow-lg">
                                             <Download className="w-5 h-5" />
-                                            Download Full Report
+                                                Télécharger le rapport complet
                                         </button>
                                     </div>
                                 </div>

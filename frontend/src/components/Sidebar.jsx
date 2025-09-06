@@ -14,13 +14,13 @@ import {
 } from "lucide-react";
 
 const menuItems = [
-    { name: "Home", route: "/", icon: <Home size={20} /> },
-    { name: "Dashboard", route: "/dashboard", icon: <LayoutDashboard size={20} /> },
-    { name: "Weather Details", route: "/weather", icon: <Cloud size={20} /> },
-    { name: "Fields", route: "/Fields", icon: <Map size={20} /> },
-    { name: "Crop Recommendations", route: "/CropRecommendations", icon: <Activity size={20} /> },
-    { name: "Crop Diseases Detection", route: "/diseases", icon: <Stethoscope size={20} /> },
-    { name: "Fertilizer Recommendations", route: "/fertilizers", icon: <TestTube size={20} /> },
+    { name: "Accueil", route: "/", icon: <Home size={20} /> },
+    { name: "Tableau de bord", route: "/dashboard", icon: <LayoutDashboard size={20} /> },
+    { name: "Météo", route: "/weather", icon: <Cloud size={20} /> },
+    { name: "Champs", route: "/Fields", icon: <Map size={20} /> },
+    { name: "Recommendations de culture", route: "/CropRecommendations", icon: <Activity size={20} /> },
+    { name: "Détection des maladies des cultures", route: "/diseases", icon: <Stethoscope size={20} /> },
+    { name: "Recommandations d'engrais", route: "/fertilizers", icon: <TestTube size={20} /> },
 ];
 
 const NavLink = ({ item }) => {
@@ -86,7 +86,7 @@ export default function Sidebar() {
           className="flex items-center w-full gap-3 px-4 py-2.5 font-semibold text-red-500 rounded-lg transition-colors hover:bg-red-50"
         >
           <LogOut size={20} />
-          <span>Logout</span>
+          <span>Se déconnecter</span>
         </button>
       </div>
     </aside>

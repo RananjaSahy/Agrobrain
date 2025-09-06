@@ -4,6 +4,7 @@ import { ArrowRight, Leaf } from "lucide-react";
 import { motion } from "framer-motion";
 import { format } from 'date-fns';
 import { Link } from "react-router-dom"; 
+const API_KEY = import.meta.env.VITE_NEWSAPI_API_KEY;
 
 const NewsCardSkeleton = () => (
   <div className="p-4 bg-white rounded-xl border border-gray-200">
@@ -27,11 +28,11 @@ const News = () => {
       try {
         const response = await axios.get("https://newsapi.org/v2/everything", {
           params: {
-            q: "agriculture OR sustainable farming OR agritech",
+            q: "agriculture",
             sortBy: "relevancy",
             pageSize: 3,
-            language: 'en',
-            apiKey: "53c8d29069084e49af47d657d3c57daa",
+            language: 'fr',
+            apiKey: API_KEY,
           },
         });
         setNews(response.data.articles);
@@ -80,10 +81,10 @@ const News = () => {
             <Leaf className="w-8 h-8 text-green-600" />
           </div>
           <h2 className="mb-4 text-4xl font-bold tracking-tight text-gray-800 md:text-5xl">
-            Agricultural <span className="text-green-600">Insights</span>
+            Actualités <span className="text-green-600">Agricoles</span>
           </h2>
           <p className="mx-auto max-w-2xl text-lg text-gray-600">
-            Stay updated with the latest innovations and trends in sustainable farming.
+            Restez à jour avec les dernières innovations et tendances en matière d’agriculture durable.
           </p>
         </motion.div>
 
@@ -124,7 +125,7 @@ const News = () => {
                     </h3>
                   </div>
                   <div className="flex items-center mt-auto font-semibold text-green-600">
-                    Read Article
+                    Lire l’article
                     <ArrowRight className="ml-2 w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
                   </div>
                 </div>
@@ -144,7 +145,7 @@ const News = () => {
               to="/news"
               className="inline-flex items-center px-8 py-3 text-base font-semibold text-white bg-green-600 rounded-full shadow-lg transition-all duration-300 hover:bg-green-700 hover:shadow-xl hover:scale-105"
             >
-              Explore More Insights
+              Explorez plus d’informations
               <ArrowRight className="ml-2 w-5 h-5" />
             </Link>
           </motion.div>

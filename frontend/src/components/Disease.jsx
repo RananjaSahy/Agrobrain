@@ -11,16 +11,16 @@ const predictApiCall = async (file) => {
     cure_steps: "1. Remove and destroy infected plants.\n2. Apply a copper-based fungicide.\n3. Ensure good air circulation around plants.\n4. Water at the base of the plant to keep foliage dry."
   };
   
-  /*
-  const formData = new FormData();
-  formData.append("file", file);
-  const response = await fetch("https://sujoy0011-plant-disease-api.hf.space/predict", {
-    method: "POST",
-    body: formData,
-  });
-  if (!response.ok) throw new Error("Prediction failed");
-  return await response.json();
-  */
+   /*
+   const formData = new FormData();
+   formData.append("file", file);
+   const response = await fetch("https:sujoy0011-plant-disease-api.hf.space/predict", {
+     method: "POST",
+     body: formData,
+   });
+   if (!response.ok) throw new Error("Prediction failed");
+   return await response.json();
+   */
 };
 
 
@@ -48,7 +48,7 @@ const DiseasePredictor = () => {
 
   const handlePredict = async () => {
     if (!imageFile) {
-      setError("Please select an image first.");
+      setError("Veuillez d'abord sélectionner une image.");
       return;
     }
     setLoading(true);
@@ -59,7 +59,7 @@ const DiseasePredictor = () => {
       const formattedSteps = data.cure_steps.split("\n").filter(step => step.trim()).map(step => step.replace(/^\d+\.\s*/, ""));
       setCureSteps(formattedSteps);
     } catch (err) {
-      setError("Failed to get a prediction. Please try another image.");
+      setError("Impossible d'obtenir une prédiction. Veuillez essayer une autre image.");
       console.error(err);
     } finally {
       setLoading(false);
@@ -76,8 +76,8 @@ const DiseasePredictor = () => {
             }
         }, 100);
     } catch (err) {
-        console.error("Camera access denied:", err);
-        setError("Camera access was denied. Please enable it in your browser settings.");
+        console.error("Accès à la caméra refusé :", err);
+        setError("L'accès à la caméra a été refusé. Veuillez l'activer dans les paramètres de votre navigateur.");
     }
   };
 
@@ -108,14 +108,14 @@ const DiseasePredictor = () => {
           <div className="flex justify-between items-center h-20">
             <div className="flex items-center space-x-2">
               <Leaf className="w-8 h-8 text-green-600" />
-              <span className="text-2xl font-bold text-gray-800">Disease Predictor</span>
+              <span className="text-2xl font-bold text-gray-800">Prédicteur de maladie</span>
             </div>
             <button
               onClick={() => navigate(-1)}
               className="inline-flex items-center px-4 py-2 text-sm font-semibold text-white bg-green-600 rounded-full shadow-lg transition-all duration-300 hover:bg-green-700 hover:shadow-xl hover:scale-105"
             >
               <ArrowLeft className="mr-2 w-4 h-4" />
-              Go Back
+              Retour
             </button>
           </div>
         </div>
@@ -135,7 +135,7 @@ const DiseasePredictor = () => {
                     <h3 className="mb-4 text-xl font-bold text-center text-gray-800">Webcam View</h3>
                     <video ref={videoRef} autoPlay className="mb-4 w-full bg-gray-900 rounded-lg shadow-inner" />
                     <button onClick={captureImage} className="px-6 py-3 w-full font-semibold text-white bg-green-600 rounded-lg hover:bg-green-700">
-                        Capture Image
+                      Capturer une image
                     </button>
                 </motion.div>
               ) : imagePreview ? (
@@ -144,7 +144,7 @@ const DiseasePredictor = () => {
                   <img src={imagePreview} alt="Selected plant" className="object-contain mb-4 w-full max-h-80 rounded-lg shadow-md" />
                   <div className="grid grid-cols-2 gap-4">
                       <button onClick={resetState} className="px-6 py-3 w-full font-semibold text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300">
-                          Clear Image
+                          Effacer l'image
                       </button>
                       <button onClick={handlePredict} disabled={loading} className="flex justify-center items-center px-6 py-3 w-full font-semibold text-white bg-green-600 rounded-lg hover:bg-green-700 disabled:bg-gray-400">
                         {loading ? <div className="w-5 h-5 rounded-full border-2 border-white animate-spin border-t-transparent" /> : 'Predict Disease'}
@@ -153,14 +153,14 @@ const DiseasePredictor = () => {
                 </motion.div>
               ) : (
                 <motion.div key="upload-view" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                  <h3 className="mb-4 text-xl font-bold text-center text-gray-800">Upload an Image</h3>
+                  <h3 className="mb-4 text-xl font-bold text-center text-gray-800">Télécharger une image</h3>
                   <div 
                     className="flex flex-col justify-center items-center p-8 mb-4 rounded-lg border-2 border-gray-300 border-dashed cursor-pointer hover:bg-gray-100"
                     onClick={() => fileInputRef.current.click()}
                   >
                     <UploadCloud className="mb-4 w-12 h-12 text-gray-400" />
-                    <p className="font-semibold text-gray-700">Click to upload or drag & drop</p>
-                    <p className="text-sm text-gray-500">PNG, JPG, or WEBP</p>
+                    <p className="font-semibold text-gray-700">Cliquez pour télécharger ou glisser-déposer</p>
+                    <p className="text-sm text-gray-500">PNG, JPG, ou WEBP</p>
                   </div>
                   <input type="file" ref={fileInputRef} accept="image/*" onChange={(e) => handleFileChange(e.target.files[0])} className="hidden" />
                   <div className="flex items-center my-4">
@@ -182,27 +182,27 @@ const DiseasePredictor = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            <h3 className="mb-6 text-2xl font-bold text-gray-800">Prediction Results</h3>
+            <h3 className="mb-6 text-2xl font-bold text-gray-800">Résultats de prédiction</h3>
             <AnimatePresence mode="wait">
             {loading ? (
                 <motion.div key="loading" className="flex flex-col justify-center items-center h-full">
                     <div className="mb-4 w-12 h-12 text-green-600 rounded-full border-4 border-green-200 animate-spin border-t-green-600" />
-                    <p className="font-semibold text-gray-600">Analyzing Image...</p>
+                    <p className="font-semibold text-gray-600">Analyse de l'image...</p>
                 </motion.div>
             ) : error ? (
                 <motion.div key="error" className="flex flex-col justify-center items-center p-6 h-full text-center bg-red-50 rounded-lg border border-red-200">
                     <AlertTriangle className="mb-4 w-12 h-12 text-red-500" />
-                    <h4 className="mb-2 text-lg font-bold text-red-700">Analysis Failed</h4>
+                    <h4 className="mb-2 text-lg font-bold text-red-700">L'analyse a échoué</h4>
                     <p className="text-red-600">{error}</p>
                 </motion.div>
             ) : prediction ? (
                 <motion.div key="results" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                     <div className="p-6 mb-6 bg-green-50 rounded-lg border border-green-200">
-                        <p className="mb-1 text-sm font-semibold text-green-700">Predicted Disease</p>
+                        <p className="mb-1 text-sm font-semibold text-green-700">Maladie prédite</p>
                         <h4 className="text-2xl font-bold text-green-800">{prediction}</h4>
                     </div>
                     <div>
-                        <h4 className="mb-4 text-xl font-bold text-gray-700">Treatment Steps</h4>
+                        <h4 className="mb-4 text-xl font-bold text-gray-700">Étapes du traitement</h4>
                         <ul className="space-y-3">
                             {cureSteps.map((step, index) => (
                                 <motion.li key={index} className="flex items-start" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: index * 0.1 }}>
@@ -216,8 +216,8 @@ const DiseasePredictor = () => {
             ) : (
                 <motion.div key="waiting" className="flex flex-col justify-center items-center h-full text-center text-gray-500">
                     <Sparkles className="mb-4 w-12 h-12 text-gray-300" />
-                    <h4 className="text-lg font-semibold">Your results will appear here.</h4>
-                    <p>Upload an image and click "Predict" to begin.</p>
+                    <h4 className="text-lg font-semibold">Vos résultats apparaîtront ici.</h4>
+                    <p>Téléchargez une image et cliquez sur « Prédire » pour commencer.</p>
                 </motion.div>
             )}
             </AnimatePresence>
