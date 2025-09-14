@@ -4,9 +4,53 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Leaf, ArrowLeft, ChevronDown, Loader } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-const states = ["Odisha", "Andhra Pradesh", "Assam", "Bihar", "West Bengal"]; 
-const dist = ["NICOBARS", "ANANTAPUR", "BAKSA", "ARARIA", "BANKURA"]; 
-const seasons = ["Kharif", "Toute l'année", "Automne", "Rabi", "Été", "Hiver"];
+// Régions de Madagascar (23 régions)
+const states = [
+  "Analamanga",
+  "Vakinankaratra",
+  "Itasy",
+  "Bongolava",
+  "Analanjirofo",
+  "Alaotra-Mangoro",
+  "Atsinanana",
+  "Vatovavy",
+  "Fitovinany",
+  "Atsimo-Atsinanana",
+  "Anosy",
+  "Androy",
+  "Atsimo-Andrefana",
+  "Menabe",
+  "Melaky",
+  "Boeny",
+  "Sofia",
+  "Betsiboka",
+  "Diana",
+  "Sava",
+  "Amoron’i Mania",
+  "Haute Matsiatra",
+  "Ihorombe"
+];
+
+// Exemple de districts (il y en a 119, j’en mets quelques-uns)
+const dist = [
+  "Antananarivo I",
+  "Antsirabe I",
+  "Ambatondrazaka",
+  "Fianarantsoa I",
+  "Toamasina I",
+  "Mahajanga I",
+  "Antsiranana I",
+  "Toliara I"
+];
+
+// Saisons agricoles/climatiques de Madagascar
+const seasons = [
+  "Saison des pluies",     // Novembre à avril
+  "Saison sèche",          // Mai à octobre
+  "Culture de contre-saison", // Riziculture irriguée, maraîchage
+  "Toute l'année"          // Cultures permanentes (bananes, café, etc.)
+];
+
 
 const InputField = ({ label, name, value, onChange }) => (
   <div>
@@ -100,10 +144,10 @@ const CropRecommendation = () => {
             const response = await axios.get("https://api.unsplash.com/search/photos", {
                 params: { query: `${crop} plant field`, client_id: 'mFG31wnhGo0nAcunuKOPzQ1DFlO_vplI6jgB5XDUseE', per_page: 1 }
             });
-            fetchedImages[crop] = data.results.length > 0 ? data.results[0].urls.regular : '/fallback-agriculture-image.jpg';
+            fetchedImages[crop] = data.results.length > 0 ? data.results[0].urls.regular : '/Objectives-of-Adult-Education-in-Agriculture.jpg';
           } catch (error) {
             console.error(`Erreur lors de la récupération de l'image pour ${crop}:`, error);
-            fetchedImages[crop] = '/fallback-agriculture-image.jpg';
+            fetchedImages[crop] = '/Objectives-of-Adult-Education-in-Agriculture.jpg';
           }
         }
         setImages(fetchedImages);
